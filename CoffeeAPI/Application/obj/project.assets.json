@@ -3878,11 +3878,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\Application.csproj",
+      "projectUniqueName": "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\Application.csproj",
+      "projectPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\obj\\",
+      "outputPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3904,8 +3904,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj": {
-              "projectPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj"
+            "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj": {
+              "projectPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj"
             }
           }
         }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CoffeeStoreAPI\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj": {}
+    "D:\\CoffeeShopManager\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj": {}
   },
   "projects": {
-    "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\Application.csproj": {
+    "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\Application.csproj",
+        "projectUniqueName": "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\Application.csproj",
+        "projectPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\obj\\",
+        "outputPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj": {
-                "projectPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj"
+              "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj": {
+                "projectPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj"
               }
             }
           }
@@ -84,14 +84,14 @@
         }
       }
     },
-    "D:\\CoffeeStoreAPI\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj": {
+    "D:\\CoffeeShopManager\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CoffeeStoreAPI\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj",
+        "projectUniqueName": "D:\\CoffeeShopManager\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj",
         "projectName": "CoffeeAPI",
-        "projectPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj",
+        "projectPath": "D:\\CoffeeShopManager\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\CoffeeAPI\\obj\\",
+        "outputPath": "D:\\CoffeeShopManager\\CoffeeAPI\\CoffeeAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -113,11 +113,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\Application.csproj": {
-                "projectPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\Application.csproj"
+              "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\Application.csproj": {
+                "projectPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\Application.csproj"
               },
-              "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj": {
-                "projectPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj"
+              "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj": {
+                "projectPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj"
               }
             }
           }
@@ -178,14 +178,14 @@
         }
       }
     },
-    "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj": {
+    "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj",
+        "projectUniqueName": "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\Data.csproj",
+        "projectPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\Data.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Data\\obj\\",
+        "outputPath": "D:\\CoffeeShopManager\\CoffeeAPI\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

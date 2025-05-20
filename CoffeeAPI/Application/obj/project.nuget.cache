@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zX/9KeSg2yM=",
+  "dgSpecHash": "qQcbpLxeMgc=",
   "success": true,
-  "projectFilePath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\Application\\Application.csproj",
+  "projectFilePath": "D:\\CoffeeShopManager\\CoffeeAPI\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\automapper\\8.0.0\\automapper.8.0.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",

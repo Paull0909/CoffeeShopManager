@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3ZpMZfijv48=",
+  "dgSpecHash": "uzCE5217RrQ=",
   "success": true,
-  "projectFilePath": "D:\\CoffeeStoreAPI\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj",
+  "projectFilePath": "D:\\CoffeeShopManager\\CoffeeAPI\\CoffeeAPI\\CoffeeAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\automapper\\8.0.0\\automapper.8.0.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\6.0.0\\automapper.extensions.microsoft.dependencyinjection.6.0.0.nupkg.sha512",
