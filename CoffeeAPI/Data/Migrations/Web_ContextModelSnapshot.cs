@@ -630,11 +630,11 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SalaryID"));
 
-                    b.Property<float>("Bonus")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Bonus")
+                        .HasColumnType("decimal(18,0)");
 
-                    b.Property<decimal>("CreatedAt")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
 
                     b.Property<int>("EmployeeID")
                         .HasColumnType("int");

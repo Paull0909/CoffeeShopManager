@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Web_Context))]
-    [Migration("20250529115930_editentity")]
-    partial class editentity
+    [Migration("20250529143243_updatesala")]
+    partial class updatesala
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -633,11 +633,11 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SalaryID"));
 
-                    b.Property<float>("Bonus")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Bonus")
+                        .HasColumnType("decimal(18,0)");
 
-                    b.Property<decimal>("CreatedAt")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("EmployeeID")
                         .HasColumnType("int");
