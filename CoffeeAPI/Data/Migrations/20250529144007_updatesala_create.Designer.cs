@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Web_Context))]
-    [Migration("20250507132319_deletearears")]
-    partial class deletearears
+    [Migration("20250529144007_updatesala_create")]
+    partial class updatesala_create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -336,6 +336,9 @@ namespace Data.Migrations
                     b.Property<float>("Quantity")
                         .HasColumnType("real");
 
+                    b.Property<int>("SupplierID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Unit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -349,6 +352,8 @@ namespace Data.Migrations
                     b.HasKey("MaterialID");
 
                     b.HasIndex("CategoryID");
+
+                    b.HasIndex("SupplierID");
 
                     b.HasIndex("UserID");
 
@@ -628,11 +633,11 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SalaryID"));
 
-                    b.Property<float>("Bonus")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Bonus")
+                        .HasColumnType("decimal(18,0)");
 
-                    b.Property<decimal>("CreatedAt")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
 
                     b.Property<int>("EmployeeID")
                         .HasColumnType("int");
@@ -1099,6 +1104,12 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Data.Entities.Suppliers", "Suppliers")
+                        .WithMany("Materials")
+                        .HasForeignKey("SupplierID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Materials")
                         .HasForeignKey("UserID")
@@ -1106,6 +1117,8 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Categories_Material");
+
+                    b.Navigation("Suppliers");
 
                     b.Navigation("User");
                 });
@@ -1366,6 +1379,8 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Suppliers", b =>
                 {
                     b.Navigation("ImportReceipts");
+
+                    b.Navigation("Materials");
                 });
 
             modelBuilder.Entity("Data.Entities.User", b =>
