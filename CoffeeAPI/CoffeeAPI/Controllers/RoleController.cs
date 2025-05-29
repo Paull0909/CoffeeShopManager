@@ -108,20 +108,20 @@ namespace APIMUSIC.Controllers
         }
 
         [HttpPost("CreateUserRole")]
-        public async Task<IActionResult> EditUsersInRole(UserRoleViewModel model, string roleId)
+        public async Task<IActionResult> EditUsersInRole(UserRoleViewModel model)
         {
-            var role = await _roleManager.FindByIdAsync(roleId);
+            var role = await _roleManager.FindByIdAsync(model.roleId);
             if (role == null)
             {
                 return NotFound();
             }
             var user = await _userManager.FindByIdAsync(model.UserId);
             IdentityResult? result;
-            if (model.IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
+            if ( !(await _userManager.IsInRoleAsync(user, role.Name)))
             {
                 result = await _userManager.AddToRoleAsync(user, role.Name);
             }
-            else if (!model.IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
+            else if ( await _userManager.IsInRoleAsync(user, role.Name))
             {
                 return BadRequest("Nguoi dung da thuoc quyen han nay");
                // result = await _userManager.RemoveFromRoleAsync(user, role.Name);
