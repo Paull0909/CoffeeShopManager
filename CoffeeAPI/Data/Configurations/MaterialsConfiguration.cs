@@ -13,6 +13,7 @@ namespace Data.Configurations
             builder.Property(x => x.MaterialID).UseIdentityColumn();
             builder.HasOne(x => x.Categories_Material).WithMany(x => x.Materials).HasForeignKey(x => x.CategoryID);
             builder.HasOne(x => x.User).WithMany(x => x.Materials).HasForeignKey(x => x.UserID);
+            builder.HasOne(x => x.Suppliers).WithMany(x => x.Materials).HasForeignKey(x => x.SupplierID);
         }
     }
 }

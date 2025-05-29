@@ -16,5 +16,6 @@ namespace Data.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<ImportReceipts> ImportReceipts { get; set; }
+        public List<Materials> Materials { get; set; }
     }
 }

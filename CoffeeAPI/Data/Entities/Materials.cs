@@ -10,6 +10,7 @@ namespace Data.Entities
         [Required]
         public string Unit { get; set; }
         public int CategoryID { get; set; }
+        public int SupplierID { get; set; }
         public int MinStock { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
@@ -19,6 +20,7 @@ namespace Data.Entities
         public User User { get; set; }
         public DateTime ExpirationDate { get; set; }
         public Categories_Material Categories_Material { get; set; }
+        public Suppliers Suppliers { get; set; }
         public List<ExportDetails> ExportDetails { get; set; }
         public List<ImportDetails> ImportDetails { get; set; }
         public List<InventoryLogs> InventoryLogs { get; set; }

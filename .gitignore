@@ -24,7 +24,7 @@
 
 # Bỏ qua các file specific từ hình ảnh của bạn
 .vs/ProjectEvaluation/
-.vs/Shopthoitrang/
+.vs/CoffeeAPI/
 Data/bin/
 Data/obj/
 
