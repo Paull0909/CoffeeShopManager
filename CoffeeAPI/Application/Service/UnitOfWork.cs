@@ -23,6 +23,7 @@ namespace Application.Service
             ImportReceiptsRepository = new ImportReceiptsRepository(context, mapper);
             InventoryLogsRepository = new InventoryLogsRepository(context, mapper);
             MaterialsRepository = new MaterialsRepository(context, mapper);
+            LotRepository = new LotRepository(context, mapper);
             OrderDetailsRepository = new OrderDetailsRepository(context, mapper);
             OrdersRepository = new OrdersRepository(context, mapper);
             PaymentsRepository = new PaymentsRepository(context, mapper);
@@ -60,6 +61,9 @@ namespace Application.Service
         public ITablesRepository TablesRepository { get; private set; }
         public ITimekeepingRepository TimekeepingRepository { get; private set; }
         public IToppingsRepository  ToppingsRepository { get; private set; }
+
+        public ILotRepository LotRepository { get; private set; }
+
         public async Task<int> CompleteAsync()
         {
             return await _context.SaveChangesAsync();

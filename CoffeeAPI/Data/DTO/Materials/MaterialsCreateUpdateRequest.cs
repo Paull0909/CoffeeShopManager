@@ -12,8 +12,6 @@ namespace Data.DTO.Materials
         public int MinStock { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public float Quantity { get; set; }
-        public decimal PurchasePrice { get; set; }
         public Guid UserID { get; set; }
         public class AutoMapperProfiles : Profile
         {

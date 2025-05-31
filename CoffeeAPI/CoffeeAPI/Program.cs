@@ -11,6 +11,7 @@ using Data.DTO.ExportReceipts;
 using Data.DTO.ImportDetails;
 using Data.DTO.ImportReceipts;
 using Data.DTO.InventoryLogs;
+using Data.DTO.Lot;
 using Data.DTO.Materials;
 using Data.DTO.OrderDetails;
 using Data.DTO.Orders;
@@ -70,6 +71,7 @@ builder.Services.AddAutoMapper(typeof(SuppliersCreateUpdateRequest));
 builder.Services.AddAutoMapper(typeof(TablesCreateUpdateRequest));
 builder.Services.AddAutoMapper(typeof(TimekeepingCreateUpdateRequest));
 builder.Services.AddAutoMapper(typeof(ToppingsCreateUpdateRequest));
+builder.Services.AddAutoMapper(typeof(LotCreateUpdateRequest));
 
 //Authen and author
 builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));

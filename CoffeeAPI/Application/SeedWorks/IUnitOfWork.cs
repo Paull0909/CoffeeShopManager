@@ -14,6 +14,7 @@ namespace Application.SeedWorks
         IImportReceiptsRepository ImportReceiptsRepository { get; }
         IInventoryLogsRepository InventoryLogsRepository { get; }
         IMaterialsRepository MaterialsRepository { get; }
+        ILotRepository LotRepository { get; }
         IOrderDetailsRepository OrderDetailsRepository { get; }
         IOrdersRepository OrdersRepository { get; }
         IPaymentsRepository PaymentsRepository { get; }
