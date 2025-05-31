@@ -27,23 +27,23 @@ namespace APIMUSIC.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(CreateUpdateUserRequest model)
         {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                var user = new User
-                {
-                    UserName = model.UserName,
-                    Email = model.Email,
-                    CreateDate = DateTime.Now,
-                    LockoutEnabled = false
-                };
-                var result = await userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    return Ok(new { Message = "RegistrationSuccessful" });
-                }
-                else return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = new User
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                CreateDate = DateTime.Now,
+                LockoutEnabled = false
+            };
+            var result = await userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                return Ok(new { Message = "RegistrationSuccessful" });
+            }
+            else return BadRequest();
         }
 
         [HttpPost("login")]
@@ -53,33 +53,54 @@ namespace APIMUSIC.Controllers
             {
                 return BadRequest("Invalid request");
             }
-            var user = await userManager.FindByEmailAsync(model.Email);
-            if (user == null)
+
+            var resultUser = new User();
+            if (model.Email != "")
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                resultUser = user;
+                if (user == null)
+                {
+                    return Unauthorized("Invalid email or password.");
+                }
+            }else
+            {
+                var user = await userManager.FindByNameAsync(model.UserName);
+                resultUser = user;
+                if (user == null)
+                {
+                    return Unauthorized("Invalid email or password.");
+                }
+            }
+            
+
+                var username = await userManager.FindByNameAsync(model.UserName);
+            if (resultUser == null)
             {
                 return Unauthorized("Invalid email or password.");
             }
-            var result = await signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
+            var result = await signInManager.PasswordSignInAsync(resultUser, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (!result.Succeeded)
             {
                 return Unauthorized();
             }
             //Authorization
-            var roles = await userManager.GetRolesAsync(user);
+            var roles = await userManager.GetRolesAsync(resultUser);
             //var permissions = await GetPermissionsByUserIdAsync(user.Id.ToString());
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(UserClaims.Id, user.Id.ToString()),
-            new Claim(ClaimTypes.NameIdentifier, user.UserName),
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Email, resultUser.Email),
+            new Claim(UserClaims.Id, resultUser.Id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, resultUser.UserName),
+            new Claim(ClaimTypes.Name, resultUser.UserName),
             new Claim(UserClaims.Roles, string.Join(";", roles)),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var accessToken = tokenService.GenerateAccessToken(claims);
             var refreshToken = tokenService.GenerateRefreshToken();
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(30);
-            await userManager.UpdateAsync(user);
+            resultUser.RefreshToken = refreshToken;
+            resultUser.RefreshTokenExpiryTime = DateTime.Now.AddDays(30);
+            await userManager.UpdateAsync(resultUser);
             return Ok(new AuthenticatedResult()
             {
                 Token = accessToken,
