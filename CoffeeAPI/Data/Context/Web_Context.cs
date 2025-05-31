@@ -23,6 +23,7 @@ namespace Data.Context
             modelBuilder.ApplyConfiguration(new ImportReceiptsConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryLogsConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialsConfiguration());
+            modelBuilder.ApplyConfiguration(new LotConfiguration());
             modelBuilder.ApplyConfiguration(new OrderDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new OrdersConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentsConfiguration());
@@ -49,6 +50,7 @@ namespace Data.Context
         public DbSet<ImportReceipts> ImportReceipts { get; set; }
         public DbSet<InventoryLogs> InventoryLogs { get; set; }
         public DbSet<Materials> Materials { get; set; }
+        public DbSet<Lot> Lots { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
