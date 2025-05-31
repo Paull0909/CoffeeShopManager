@@ -18,12 +18,12 @@ namespace Data.Entities
         public decimal PurchasePrice { get; set; }
         public Guid UserID { get; set; }
         public User User { get; set; }
-        public DateTime ExpirationDate { get; set; }
         public Categories_Material Categories_Material { get; set; }
         public Suppliers Suppliers { get; set; }
         public List<ExportDetails> ExportDetails { get; set; }
         public List<ImportDetails> ImportDetails { get; set; }
         public List<InventoryLogs> InventoryLogs { get; set; }
         public List<Recipes> Recipes { get; set; }
+        public List<Lot> Lots { get; set; }
     }
 }
