@@ -12,7 +12,7 @@ namespace Data.DTO.Salaries
         public float Bonus { get; set; }
         public decimal Penalty { get; set; }
         public decimal FinalSalary { get; set; }
-        public decimal CreatedAt { get; set; }
+        public DateOnly CreatedAt { get; set; }
         public Guid UserID { get; set; }
         public class AutoMapperProfiles : Profile
         {
