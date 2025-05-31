@@ -8,6 +8,7 @@ namespace Data.DTO.Materials
         public string MaterialName { get; set; }
         public string Unit { get; set; }
         public int CategoryID { get; set; }
+        public int SupplierID { get; set; }
         public int MinStock { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
