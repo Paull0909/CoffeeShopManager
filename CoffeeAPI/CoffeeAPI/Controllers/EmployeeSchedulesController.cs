@@ -26,7 +26,41 @@ namespace CoffeeAPI.Controllers
             try
             {
                 var eps = await _unitOfWork.EmployeeSchedulesRepository.GetAllAsync();
-                return Ok(eps);
+                var list = new List<EmployeeSchedulesViewModel>();
+                foreach(var item in eps)
+                {
+                    var i = _mapper.Map<EmployeeSchedulesViewModel>(item);
+                    var ep = await _unitOfWork.EmployeesRepository.GetByIdAsync(item.EmployeeID);
+                    var sh = await _unitOfWork.ShiftsRepository.GetByIdAsync(item.ShiftID);
+                    i.FullName = ep.FullName;
+                    i.ShiftName = sh.ShiftName;
+                    list.Add(i);
+                }
+                return Ok(list);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetEmployeeSchedulesByFilter")]
+        public async Task<IActionResult> GetByFilter(DateOnly start,  DateOnly end)
+        {
+            try
+            {
+                var eps = _unitOfWork.EmployeeSchedulesRepository.Find(x=>x.WorkDate >= start && x.WorkDate <= end).ToList();
+                var list = new List<EmployeeSchedulesViewModel>();
+                foreach (var item in eps)
+                {
+                    var i = _mapper.Map<EmployeeSchedulesViewModel>(item);
+                    var ep = await _unitOfWork.EmployeesRepository.GetByIdAsync(item.EmployeeID);
+                    var sh = await _unitOfWork.ShiftsRepository.GetByIdAsync(item.ShiftID);
+                    i.FullName = ep.FullName;
+                    i.ShiftName = sh.ShiftName;
+                    list.Add(i);
+                }
+                return Ok(list);
             }
             catch
             {
@@ -71,7 +105,7 @@ namespace CoffeeAPI.Controllers
         {
             try
             {
-                var cate = await _unitOfWork.EmployeeSchedulesRepository.GetByIdAsync(request.EmployeeID);
+                var cate = await _unitOfWork.EmployeeSchedulesRepository.GetByIdAsync(request.ScheduleID);
                 if (cate != null)
                 {
                     var i = _mapper.Map(request, cate);

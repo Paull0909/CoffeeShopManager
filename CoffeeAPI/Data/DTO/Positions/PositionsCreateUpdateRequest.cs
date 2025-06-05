@@ -15,7 +15,7 @@ namespace Data.DTO.Positions
         {
             public AutoMapperProfiles()
             {
-                CreateMap<PaymentsCreateUpdateRequest, Entities.Positions>();
+                CreateMap<PositionsCreateUpdateRequest, Entities.Positions>();
             }
         }
     }

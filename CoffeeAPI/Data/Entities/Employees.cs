@@ -11,6 +11,7 @@ namespace Data.Entities
         public DateOnly BirthDate { get; set; }
         [Required]
         public string Phone { get; set; }
+        public bool EmploymentType { get; set; }
         [Required]
         public string Email { get; set; }
         [Required]

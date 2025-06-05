@@ -26,7 +26,36 @@ namespace CoffeeAPI.Controllers
             try
             {
                 var cate = await _unitOfWork.TimekeepingRepository.GetAllAsync();
-                return Ok(cate);
+                var list = new List<TimekeepingViewModel>();
+                foreach(var item in cate)
+                {
+                    var i = _mapper.Map<TimekeepingViewModel>(item);
+                    var ep = await _unitOfWork.EmployeesRepository.GetByIdAsync(i.EmployeeID);
+                    i.FullName = ep?.FullName;
+                    list.Add(i);
+                }
+                return Ok(list);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("GetTimekeepingByFilter")]
+        public async Task<IActionResult> GetByFilter(DateOnly start, DateOnly end, int EmployeeId)
+        {
+            try
+            {
+                var cate = _unitOfWork.TimekeepingRepository.Find(x=>x.EmployeeID == EmployeeId && x.WorkDate >= start && x.WorkDate <= end).ToList();
+                var list = new List<TimekeepingViewModel>();
+                foreach (var item in cate)
+                {
+                    var i = _mapper.Map<TimekeepingViewModel>(item);
+                    var ep = await _unitOfWork.EmployeesRepository.GetByIdAsync(i.EmployeeID);
+                    i.FullName = ep?.FullName;
+                    list.Add(i);
+                }
+                return Ok(list);
             }
             catch
             {

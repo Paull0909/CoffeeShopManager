@@ -25,6 +25,7 @@ namespace Application.Service
             MaterialsRepository = new MaterialsRepository(context, mapper);
             LotRepository = new LotRepository(context, mapper);
             OrderDetailsRepository = new OrderDetailsRepository(context, mapper);
+            UserRepository = new UserRepository(context, mapper);
             OrdersRepository = new OrdersRepository(context, mapper);
             PaymentsRepository = new PaymentsRepository(context, mapper);
             PositionsRepository = new PositionsRepository(context, mapper);
@@ -47,6 +48,7 @@ namespace Application.Service
         public IImportDetailsRepository ImportDetailsRepository { get; private set; }
         public IImportReceiptsRepository ImportReceiptsRepository { get; private set; }
         public IInventoryLogsRepository InventoryLogsRepository { get; private set; }
+        public IUserRepository UserRepository { get; private set; }
         public IMaterialsRepository MaterialsRepository { get; private set; }
         public IOrderDetailsRepository OrderDetailsRepository { get; private set; }
         public IOrdersRepository OrdersRepository { get; private set; }

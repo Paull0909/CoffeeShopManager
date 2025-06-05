@@ -6,6 +6,7 @@ namespace Data.DTO.Timekeeping
     {
         public int TimekeepingID { get; set; }
         public int EmployeeID { get; set; }
+        public string FullName { get; set; }
         public DateOnly WorkDate { get; set; }
         public TimeOnly CheckInTime { get; set; }
         public TimeOnly CheckOutTime { get; set; }

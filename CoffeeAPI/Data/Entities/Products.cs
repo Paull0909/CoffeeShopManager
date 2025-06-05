@@ -13,6 +13,8 @@ namespace Data.Entities
         [Required]
         public string Description { get; set; }
         public bool IsAvailable { get; set; }
+        [Required]
+        public string UrlImg { get; set; }
         public Categories_Products categories { get; set; }
         public List<OrderDetails> OrderDetails { get; set; }
         public List<ProductSizes> ProductSizes { get; set; }
