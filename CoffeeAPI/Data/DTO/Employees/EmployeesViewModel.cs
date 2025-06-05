@@ -10,6 +10,7 @@ namespace Data.DTO.Employees
         public DateOnly BirthDate { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public bool EmploymentType { get; set; }
         public string Address { get; set; }
         public int PositionID { get; set; }
         public string PositionName { get; set; }
