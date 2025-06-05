@@ -34,6 +34,23 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetShiftsByName")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            try
+            {
+                var shifts = _unitOfWork.ShiftsRepository
+                    .Find(x => x.ShiftName.Contains(name))
+                    ?.ToList();
+
+                return Ok(shifts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(ShiftsCreateUpdateRequest request)
         {

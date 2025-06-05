@@ -26,11 +26,51 @@ namespace CoffeeAPI.Controllers
             try
             {
                 var cate = await _unitOfWork.PositionsRepository.GetAllAsync();
-                return Ok(cate);
+                var list = new List<PositionsViewModel>();
+                foreach(var item in cate)
+                {
+                    var i = _mapper.Map<PositionsViewModel>(item);
+                    var ac = await _unitOfWork.UserRepository.GetUser(item.UserID);
+                    i.UserName = ac.UserName;
+                    list.Add(i);
+                }
+                return Ok(list);
             }
             catch
             {
                 return BadRequest();
+            }
+        }
+
+        [HttpGet("GetPositionsByName")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            try
+            {
+                var positions = _unitOfWork.PositionsRepository
+                    .Find(x => x.PositionName.Contains(name))
+                    ?.ToList();
+
+                if (positions == null || !positions.Any())
+                    return NotFound("Không tìm thấy vị trí phù hợp.");
+
+                var result = new List<PositionsViewModel>();
+
+                foreach (var item in positions)
+                {
+                    var vm = _mapper.Map<PositionsViewModel>(item);
+
+                    var user = await _unitOfWork.UserRepository.GetUser(item.UserID);
+                    vm.UserName = user?.UserName ?? "(Không rõ)";
+
+                    result.Add(vm);
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
             }
         }
 

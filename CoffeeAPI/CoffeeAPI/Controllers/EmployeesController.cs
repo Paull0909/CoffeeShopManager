@@ -26,7 +26,15 @@ namespace CoffeeAPI.Controllers
             try
             {
                 var cate = await _unitOfWork.EmployeesRepository.GetAllAsync();
-                return Ok(cate);
+                var list = new List<EmployeesViewModel>();
+                foreach(var item in cate)
+                {
+                    var ep = _mapper.Map<EmployeesViewModel>(item);
+                    var i = await _unitOfWork.PositionsRepository.GetByIdAsync(item.PositionID);
+                    ep.PositionName = i?.PositionName;
+                    list.Add(ep);
+                }               
+                return Ok(list);
             }
             catch
             {
@@ -86,5 +94,37 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetEmployeesByName")]
+        [HttpGet("GetByName")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            try
+            {
+                var employees = _unitOfWork.EmployeesRepository
+                    .Find(e => e.FullName.Contains(name))
+                    ?.ToList();
+                if (employees == null || !employees.Any())
+                    return NotFound("Không tìm thấy nhân viên nào.");
+
+                var result = new List<EmployeesViewModel>();
+                foreach (var emp in employees)
+                {
+                    var vm = _mapper.Map<EmployeesViewModel>(emp);
+
+                    var pos = await _unitOfWork.PositionsRepository.GetByIdAsync(emp.PositionID);
+                    vm.PositionName = pos?.PositionName ?? "(Không rõ)";
+
+                    result.Add(vm);
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
     }
 }
