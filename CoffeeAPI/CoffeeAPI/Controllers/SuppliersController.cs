@@ -103,5 +103,19 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetSupplierByName")]
+        public async Task<IActionResult> GetSupplierByName(string name)
+        {
+            try
+            {
+                var cate = await _unitOfWork.SuppliersRepository.GetSuppliersByFindName(name);
+                return Ok(cate);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
