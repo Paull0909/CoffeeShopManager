@@ -6,6 +6,7 @@ namespace Data.DTO.ProductSizes
     {
         public int ProductSizeID { get; set; }
         public int ProductID { get; set; }
+        public string ProductName { get; set; }
         public string SizeName { get; set; }
         public decimal AdditionalPrice { get; set; }
         public class AutoMapperProfiles : Profile

@@ -33,6 +33,19 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("GetToppingsByName")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            try
+            {
+                var tp = _unitOfWork.ToppingsRepository.Find(x=>x.ToppingName.Contains(name)).ToList();
+                return Ok(tp);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(ToppingsCreateUpdateRequest request)

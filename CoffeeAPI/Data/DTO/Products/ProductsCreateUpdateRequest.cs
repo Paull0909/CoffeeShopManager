@@ -11,6 +11,7 @@ namespace Data.DTO.Products
         public decimal CostPrice { get; set; }
         public string Description { get; set; }
         public bool IsAvailable { get; set; }
+        public string UrlImg { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
