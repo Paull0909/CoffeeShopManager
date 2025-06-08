@@ -34,6 +34,20 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetOrderNumberTagByName")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            try
+            {
+                var eps = _unitOfWork.TablesRepository.Find(x=>x.TableName.Contains(name)).ToList();
+                return Ok(eps);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(TablesCreateUpdateRequest request)
         {

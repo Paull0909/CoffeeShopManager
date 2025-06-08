@@ -1,5 +1,6 @@
 ﻿using Application.SeedWorks;
 using AutoMapper;
+using Data.DTO.Employees;
 using Data.DTO.Materials;
 using Data.DTO.Products;
 using Data.Entities;
@@ -26,13 +27,77 @@ namespace CoffeeAPI.Controllers
             try
             {
                 var pr = await _unitOfWork.ProductsRepository.GetAllAsync();
-                return Ok(pr);
+                var list = new List<ProductsViewModel>();
+                foreach(var item in pr)
+                {
+                    var i = _mapper.Map<ProductsViewModel>(item);
+                    var j = await _unitOfWork.Categories_ProductsRepository.GetByIdAsync(i.CategoryID);
+                    i.Category_Name = j?.CategoryName;
+                    list.Add(i);
+                }
+                return Ok(list);
             }
             catch
             {
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetProductsByName")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            try
+            {
+                var pr = _unitOfWork.ProductsRepository.Find(e => e.ProductName.Contains(name))?.ToList();
+                if (pr == null || !pr.Any())
+                    return NotFound("Không tìm thấy san pham nào.");
+
+                var result = new List<ProductsViewModel>();
+                foreach (var item in pr)
+                {
+                    var vm = _mapper.Map<ProductsViewModel>(item);
+
+                    var cate = await _unitOfWork.Categories_ProductsRepository.GetByIdAsync(item.CategoryID);
+                    vm.Category_Name = cate?.CategoryName ?? "(Không rõ)";
+
+                    result.Add(vm);
+                }
+
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("GetProductsByNameandCate")]
+        public async Task<IActionResult> GetByNameandCate(string name, int id)
+        {
+            try
+            {
+                var pr = await _unitOfWork.ProductsRepository.GetByCategory(id);
+                if (pr == null || !pr.Any())
+                    return NotFound("Không tìm thấy san pham nào.");
+                var result = new List<ProductsViewModel>();
+                var list = pr.Where(x => x.ProductName.Contains(name)).ToList();
+                foreach (var item in list)
+                {
+                    var vm = _mapper.Map<ProductsViewModel>(item);
+
+                    var cate = await _unitOfWork.Categories_ProductsRepository.GetByIdAsync(item.CategoryID);
+                    vm.Category_Name = cate?.CategoryName ?? "(Không rõ)";
+
+                    result.Add(vm);
+                }
+
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
 
         [HttpGet("GetByCategory")]
         public async Task<IActionResult> GetByCategory(int id)

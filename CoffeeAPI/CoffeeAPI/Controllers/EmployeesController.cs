@@ -101,9 +101,7 @@ namespace CoffeeAPI.Controllers
         {
             try
             {
-                var employees = _unitOfWork.EmployeesRepository
-                    .Find(e => e.FullName.Contains(name))
-                    ?.ToList();
+                var employees = _unitOfWork.EmployeesRepository.Find(e => e.FullName.Contains(name))?.ToList();
                 if (employees == null || !employees.Any())
                     return NotFound("Không tìm thấy nhân viên nào.");
 

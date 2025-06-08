@@ -1,10 +1,13 @@
 ﻿using Application.SeedWorks;
 using AutoMapper;
+using Data.DTO.Employees;
 using Data.DTO.Positions;
+using Data.DTO.Products;
 using Data.DTO.ProductSizes;
 using Data.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CoffeeAPI.Controllers
 {
@@ -26,7 +29,15 @@ namespace CoffeeAPI.Controllers
             try
             {
                 var size = await _unitOfWork.ProductSizesRepository.GetByProduct(id);
-                return Ok(size);
+                var list = new List<ProductSizesViewModel>();
+                foreach (var item in size)
+                {
+                    var ep = _mapper.Map<ProductSizesViewModel>(item);
+                    var i = await _unitOfWork.ProductsRepository.GetByIdAsync(item.ProductID);
+                    ep.ProductName = i?.ProductName;
+                    list.Add(ep);
+                }
+                return Ok(list);
             }
             catch
             {
