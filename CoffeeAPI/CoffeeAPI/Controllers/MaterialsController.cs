@@ -229,8 +229,28 @@ namespace CoffeeAPI.Controllers
         {
             try
             {
-                var import = await _unitOfWork.LotDeatailsRepository.GetLotDetailsFindByDayAsync(fromDay, toDay);
-                return Ok(import);
+                var list = new List<Data.DTO.Materials.InventoryLogs>();
+                var lots = await _unitOfWork.LotDeatailsRepository.GetLotDetailsFindByDayAsync(fromDay, toDay);
+                foreach (var lotDetail in lots)
+                {
+                    var lot = await _unitOfWork.LotRepository.GetByIdAsync(lotDetail.LotId);
+                    var material = await _unitOfWork.MaterialsRepository.GetByIdAsync(lot.MaterialID);
+
+                    var inven = new Data.DTO.Materials.InventoryLogs()
+                    {
+                        MaterialID = material.MaterialID,
+                        CreateAt = lotDetail.CreateAt,
+                        LotID = lotDetail.LotId,
+                        MaterialName = material.MaterialName,
+                        Quantity = lotDetail.Quantity,
+                        QuantityAfter = lotDetail.QuantityAfter,
+                        QuantityBefor = lotDetail.QuantityBefor,
+                        Status = lotDetail.Status,
+                    };
+                    list.Add(inven);
+
+                }
+                return Ok(list);
             }
             catch
             {

@@ -162,7 +162,9 @@ namespace CoffeeAPI.Controllers
         {
             try
             {
-                var import = await _unitOfWork.ImportReceiptsRepository.GetImportFindByDayAsync(fromDay,toDay);
+                var from = fromDay.Date;
+                var to = toDay.Date.AddDays(1).AddTicks(-1); // đến cuối ngày
+                var import = await _unitOfWork.ImportReceiptsRepository.GetImportFindByDayAsync(from, to);
                 return Ok(import);
             }
             catch
