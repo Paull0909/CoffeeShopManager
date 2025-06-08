@@ -223,5 +223,19 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetLotDetailsByDay")]
+        public async Task<IActionResult> GetLotDetailsByDay(DateTime fromDay, DateTime toDay)
+        {
+            try
+            {
+                var import = await _unitOfWork.LotDeatailsRepository.GetLotDetailsFindByDayAsync(fromDay, toDay);
+                return Ok(import);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

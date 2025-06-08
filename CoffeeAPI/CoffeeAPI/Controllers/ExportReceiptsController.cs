@@ -133,5 +133,33 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetExportReceiptsByDay")]
+        public async Task<IActionResult> GetExportReceiptsByDay(DateTime fromDay, DateTime toDay)
+        {
+            try
+            {
+                var import = await _unitOfWork.ExportReceiptsRepository.GetExportFindByDayAsync(fromDay, toDay);
+                return Ok(import);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetExportReceiptsByID")]
+        public async Task<IActionResult> GetExportReceiptsByID(int id)
+        {
+            try
+            {
+                var import = await _unitOfWork.ExportReceiptsRepository.GetByIdAsync(id);
+                return Ok(import);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
