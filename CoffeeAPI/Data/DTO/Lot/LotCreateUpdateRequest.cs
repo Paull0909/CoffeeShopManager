@@ -1,11 +1,4 @@
 ﻿using AutoMapper;
-using Data.DTO.Materials;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.DTO.Lot
 {
@@ -17,6 +10,7 @@ namespace Data.DTO.Lot
         public int MaterialID { get; set; }
         public decimal PurchasePrice { get; set; }
         public DateOnly ExpirationDate { get; set; }
+        public string Status { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()

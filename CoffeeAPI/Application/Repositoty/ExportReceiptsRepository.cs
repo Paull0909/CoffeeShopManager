@@ -3,11 +3,7 @@ using Application.Service;
 using AutoMapper;
 using Data.Context;
 using Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Repositoty
 {
@@ -18,6 +14,12 @@ namespace Application.Repositoty
         public ExportReceiptsRepository(Web_Context context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
+        }
+
+        public async Task<List<ExportDetails>> GetExportDetails(int exportId)
+        {
+            var resutl = await _context.ExportDetails.Where(t => t.ExportID == exportId).ToListAsync();
+            return resutl;
         }
     }
 }

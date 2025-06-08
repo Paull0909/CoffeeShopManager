@@ -17,6 +17,7 @@ namespace Data.DTO.Lot
         public int MaterialID { get; set; }
         public decimal PurchasePrice { get; set; }
         public DateOnly ExpirationDate { get; set; }
+        public string Status { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()

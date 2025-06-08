@@ -104,5 +104,19 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetCategoriesMaterialByName")]
+        public async Task<IActionResult> GetCategoriesMaterialByName(string name)
+        {
+            try
+            {
+                var cate = await _unitOfWork.Categories_MaterialRepository.GetCategoryMaterialByFindName(name);
+                return Ok(cate);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

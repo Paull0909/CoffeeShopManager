@@ -32,6 +32,20 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetSuppliersByID")]
+        public async Task<IActionResult> GetSuppliersID(int id)
+        {
+            try
+            {
+                var il = await _unitOfWork.SuppliersRepository.GetByIdAsync(id);
+                return Ok(il);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(SuppliersCreateUpdateRequest request)
         {

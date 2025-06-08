@@ -24,6 +24,7 @@ namespace Data.Context
             modelBuilder.ApplyConfiguration(new InventoryLogsConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialsConfiguration());
             modelBuilder.ApplyConfiguration(new LotConfiguration());
+            modelBuilder.ApplyConfiguration(new LotDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new OrderDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new OrdersConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentsConfiguration());
@@ -39,6 +40,7 @@ namespace Data.Context
             modelBuilder.ApplyConfiguration(new ToppingsConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+
         }
         public DbSet<Categories_Material> Categories_Materials { get; set; }
         public DbSet<Categories_Products> Categories_Products { get; set; }
@@ -51,6 +53,7 @@ namespace Data.Context
         public DbSet<InventoryLogs> InventoryLogs { get; set; }
         public DbSet<Materials> Materials { get; set; }
         public DbSet<Lot> Lots { get; set; }
+        public DbSet<LotDetails> LotsDetails { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }

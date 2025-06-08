@@ -1,6 +1,10 @@
 ﻿using Application.SeedWorks;
 using AutoMapper;
+using Data.DTO.ExportDetails;
 using Data.DTO.ExportReceipts;
+using Data.DTO.ImportDetails;
+using Data.DTO.Lot;
+using Data.DTO.LotDetails;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,13 +37,46 @@ namespace CoffeeAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ExportReceiptsCreateUpdateRequest request)
+        public async Task<IActionResult> Create(CreateExportReceipts request)
         {
             try
             {
-                var i = _mapper.Map<ExportReceipts>(request);
+                var i = _mapper.Map<ExportReceipts>(request.Receipt);
                 _unitOfWork.ExportReceiptsRepository.Add(i);
-                await _unitOfWork.CompleteAsync();
+                var resutl = await _unitOfWork.CompleteAsync();
+                if (resutl > 0)
+                {
+                    foreach (var item in request.Details)
+                    {
+                        var lot = await _unitOfWork.LotRepository.GetByIdAsync(item.LotID);
+                        var id = i.ExportID;
+                        item.ExportID = id;
+
+                        var exprot = _mapper.Map<ExportDetailsCreateUpdateRequest, ExportDetails>(item);
+                        _unitOfWork.ExportDetailsRepository.Add(exprot);
+
+                        var lotdetails= await _unitOfWork.LotRepository.GetLotDetailsByLotId(lot.LotID);
+
+                        var lotdetailsnew = new LotDetailsCreateUpdateRequets()
+                        {
+                            LotId = lot.LotID,
+                            Quantity = (int)exprot.Quantity,
+                            Status = "Tru so luong",
+                            QuantityBefor=lotdetails.QuantityAfter,
+                            QuantityAfter=lotdetails.QuantityAfter - (int)exprot.Quantity,
+                            CreateAt = DateTime.Now,
+                        };
+                        var lotdetailsresult = _mapper.Map<LotDetailsCreateUpdateRequets, LotDetails>(lotdetailsnew);
+                        var materials = await _unitOfWork.MaterialsRepository.GetByIdAsync(lot.MaterialID);
+                        materials.TotalMaterial -= (int)item.Quantity;
+                        lot.Quantity-=item.Quantity;
+                        _unitOfWork.LotDeatailsRepository.Add(lotdetailsresult);
+
+                        await _unitOfWork.CompleteAsync();
+                    }
+
+                }
+
                 return Ok();
             }
             catch
@@ -47,7 +84,19 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
-
+        [HttpGet("GetExportDetailsByExportID")]
+        public async Task<IActionResult> GetExportDetailsByExportID(int exportID)
+        {
+            try
+            {
+                var ip = await _unitOfWork.ExportReceiptsRepository.GetExportDetails(exportID);
+                return Ok(ip);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
@@ -72,7 +121,7 @@ namespace CoffeeAPI.Controllers
                 var ex = await _unitOfWork.ExportReceiptsRepository.GetByIdAsync(request.ExportID);
                 if (ex != null)
                 {
-                    var i = _mapper.Map(request,ex);
+                    var i = _mapper.Map(request, ex);
                     await _unitOfWork.CompleteAsync();
                     return Ok();
                 }

@@ -13,6 +13,7 @@ namespace Data.DTO.Materials
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public Guid UserID { get; set; }
+        public int TotalMaterial { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()

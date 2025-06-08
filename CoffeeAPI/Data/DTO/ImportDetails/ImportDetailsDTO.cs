@@ -1,6 +1,6 @@
-﻿namespace Data.Entities
+﻿namespace Data.DTO.ImportDetails
 {
-    public class ImportDetails
+    public class ImportDetailsDTO
     {
         public int ImportDetailID { get; set; }
         public int ImportID { get; set; }
@@ -9,7 +9,5 @@
         public decimal Price { get; set; }
         public decimal TotalPrice { get; set; }
         public DateOnly ExpirationDate { get; set; }
-        public ImportReceipts ImportReceipts { get; set; }
-        public Materials Materials { get; set; }
     }
 }
