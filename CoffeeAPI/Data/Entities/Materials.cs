@@ -12,6 +12,7 @@ namespace Data.Entities
         public int CategoryID { get; set; }
         public int SupplierID { get; set; }
         public int MinStock { get; set; }
+        public int TotalMaterial {  get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public Guid UserID { get; set; }

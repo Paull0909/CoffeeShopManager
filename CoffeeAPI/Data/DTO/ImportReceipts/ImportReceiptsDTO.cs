@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using Data.DTO.ImportDetails;
 
 namespace Data.DTO.ImportReceipts
 {
-    public class ImportReceiptsCreateUpdateRequest
+    public class ImportReceiptsDTO
     {
         public int ImportID { get; set; }
         public int SupplierID { get; set; }
@@ -10,13 +10,6 @@ namespace Data.DTO.ImportReceipts
         public string Note { get; set; }
         public DateTime CreatedAt { get; set; }
         public Guid UserID { get; set; }
-
-        public class AutoMapperProfiles : Profile
-        {
-            public AutoMapperProfiles()
-            {
-                CreateMap<ImportReceiptsCreateUpdateRequest, Entities.ImportReceipts>();
-            }
-        }
+        public List<ImportDetailsDTO> ImportDetails { get; set; }
     }
 }

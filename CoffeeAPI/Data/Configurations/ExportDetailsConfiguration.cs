@@ -12,7 +12,7 @@ namespace Data.Configurations
             builder.HasKey(x => x.ExportDetailID);
             builder.Property(x => x.ExportDetailID).UseIdentityColumn();
             builder.HasOne(x => x.Export).WithMany(x => x.ExportDetails).HasForeignKey(x => x.ExportID);
-            builder.HasOne(x => x.Materials).WithMany(x => x.ExportDetails).HasForeignKey(x => x.MaterialID).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Lot).WithMany(x => x.ExportDetails).HasForeignKey(x => x.LotID).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

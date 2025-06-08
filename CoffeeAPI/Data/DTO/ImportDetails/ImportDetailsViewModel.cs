@@ -10,6 +10,8 @@ namespace Data.DTO.ImportDetails
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public decimal TotalPrice { get; set; }
+        public DateOnly ExpirationDate { get; set; }
+        public string MaterialsName { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()

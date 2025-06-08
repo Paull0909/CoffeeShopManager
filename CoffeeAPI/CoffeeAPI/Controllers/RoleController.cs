@@ -211,5 +211,29 @@ namespace APIMUSIC.Controllers
                 return BadRequest();
             }  
         }
+
+        [HttpGet("ListRolesByUserId")]
+        public async Task<IActionResult> ListRolesByUserId(Guid userId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                var roles = await _userManager.GetRolesAsync(user);
+                var listrole = roles.Select(roleName => new ListRole
+                {
+                    RoleName = roleName
+                }).ToList();
+                return Ok(listrole);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
     }
 }
