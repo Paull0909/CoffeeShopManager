@@ -39,6 +39,7 @@ namespace Application.Service
             TimekeepingRepository = new TimekeepingRepository(context, mapper);
             ToppingsRepository = new ToppingsRepository(context, mapper);
             LotDeatailsRepository = new LotDetailsRepository(context, mapper);
+            OrderToppingDetailsRepository=new OrderToppingDetailsRepository(context, mapper);
         }
         public ICategories_MaterialRepository Categories_MaterialRepository { get; private set; }
         public ICategories_ProductsRepository Categories_ProductsRepository { get; private set; }
@@ -69,6 +70,7 @@ namespace Application.Service
 
         public ILotDeatailsRepository LotDeatailsRepository { get; private set; }
 
+        public IOrderToppingDetailsRepository OrderToppingDetailsRepository { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

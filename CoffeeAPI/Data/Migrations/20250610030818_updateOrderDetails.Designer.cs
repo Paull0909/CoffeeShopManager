@@ -4,6 +4,7 @@ using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Web_Context))]
-    partial class Web_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250610030818_updateOrderDetails")]
+    partial class updateOrderDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -517,8 +520,9 @@ namespace Data.Migrations
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("TableNumberID")
-                        .HasColumnType("int");
+                    b.Property<string>("TableNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
@@ -526,8 +530,6 @@ namespace Data.Migrations
                     b.HasKey("OrderID");
 
                     b.HasIndex("EmployeeID");
-
-                    b.HasIndex("TableNumberID");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -1298,15 +1300,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Tables", "Tables")
-                        .WithMany("Orders")
-                        .HasForeignKey("TableNumberID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Employees");
-
-                    b.Navigation("Tables");
                 });
 
             modelBuilder.Entity("Data.Entities.Payments", b =>
@@ -1551,11 +1545,6 @@ namespace Data.Migrations
                     b.Navigation("ImportReceipts");
 
                     b.Navigation("Materials");
-                });
-
-            modelBuilder.Entity("Data.Entities.Tables", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Data.Entities.Toppings", b =>

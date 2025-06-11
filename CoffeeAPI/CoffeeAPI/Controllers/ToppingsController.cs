@@ -47,6 +47,20 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetToppingsByID")]
+        public async Task<IActionResult> GetToppingByID(int id)
+        {
+            try
+            {
+                var tp = await _unitOfWork.ToppingsRepository.GetByIdAsync(id);
+                return Ok(tp);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(ToppingsCreateUpdateRequest request)
         {

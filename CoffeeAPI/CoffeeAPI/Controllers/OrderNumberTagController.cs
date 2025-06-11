@@ -3,8 +3,11 @@ using AutoMapper;
 using Data.DTO.EmployeeSchedules;
 using Data.DTO.Tables;
 using Data.Entities;
+using Data.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CoffeeAPI.Controllers
 {
@@ -48,6 +51,19 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetOrderNumberTagByID")]
+        public async Task<IActionResult> GetByID(int id)
+        {
+            try
+            {
+                var eps =await _unitOfWork.TablesRepository.GetByIdAsync(id);
+                return Ok(eps);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> Create(TablesCreateUpdateRequest request)
         {
@@ -99,6 +115,21 @@ namespace CoffeeAPI.Controllers
                 }
                 else
                     return BadRequest();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("UpdateOrderNumberTagStatus")]
+        public async Task<IActionResult> UpdateStatus(int idban, TableStatus status)
+        {
+            try
+            {
+                var result= await _unitOfWork.TablesRepository.updateStatus(idban, status);
+                
+                return Ok(result);
             }
             catch
             {

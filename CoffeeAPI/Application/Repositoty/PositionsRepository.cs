@@ -3,6 +3,7 @@ using Application.Service;
 using AutoMapper;
 using Data.Context;
 using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace Application.Repositoty
         public PositionsRepository(Web_Context context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
+        }
+
+        public async Task<Positions> GetPositionByUserIdAsync(Guid userid)
+        {
+            return await _context.Positions.FirstOrDefaultAsync(t => t.UserID == userid);
         }
     }
 }

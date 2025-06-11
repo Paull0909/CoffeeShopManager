@@ -8,7 +8,7 @@ namespace Data.DTO.Orders
         public int OrderID { get; set; }
         public DateTime OrderDate { get; set; }
         public int EmployeeID { get; set; }
-        public string TableNumber { get; set; }
+        public int TableNumberID { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal Discount { get; set; }
         public decimal FinalAmount { get; set; }

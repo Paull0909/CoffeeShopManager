@@ -40,6 +40,7 @@ namespace Data.Context
             modelBuilder.ApplyConfiguration(new ToppingsConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderToppingDetailsConfiguration());
 
         }
         public DbSet<Categories_Material> Categories_Materials { get; set; }
@@ -69,6 +70,7 @@ namespace Data.Context
         public DbSet<Tables> Tables { get; set; }
         public DbSet<Timekeeping> Timekeepings { get; set; }
         public DbSet<Toppings> Toppings { get; set; }
+        public DbSet<OrderToppingDetails> OrderToppingsDetails { get; set; }
 
     }
 }

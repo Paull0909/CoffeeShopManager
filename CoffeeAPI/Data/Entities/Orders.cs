@@ -9,7 +9,7 @@ namespace Data.Entities
         public DateTime OrderDate { get; set; }
         public int EmployeeID { get; set; }
         [Required]
-        public string TableNumber { get; set; }
+        public int TableNumberID { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal Discount { get; set; }
         public decimal FinalAmount { get; set; }
@@ -17,5 +17,6 @@ namespace Data.Entities
         public List<OrderDetails> OrderDetails { get; set; }
         public Employees Employees { get; set; }
         public Payments Payments { get; set; }
+        public Tables Tables { get; set; }
     }
 }

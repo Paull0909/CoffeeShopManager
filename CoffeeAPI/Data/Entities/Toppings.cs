@@ -9,5 +9,6 @@ namespace Data.Entities
         public string ToppingName { get; set; }
         public decimal Price { get; set; }
         public bool IsAvailable { get; set; }
+        public List<OrderToppingDetails> OrderToppingDetails { get; set; }
     }
 }
