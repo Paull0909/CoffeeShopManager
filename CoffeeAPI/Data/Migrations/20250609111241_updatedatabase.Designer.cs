@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Web_Context))]
-    [Migration("20250605054333_updateproduct")]
-    partial class updateproduct
+    [Migration("20250609111241_updatedatabase")]
+    partial class updatedatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,6 +122,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("EmploymentType")
+                        .HasColumnType("bit");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -166,7 +169,10 @@ namespace Data.Migrations
                     b.Property<int>("ExportID")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaterialID")
+                    b.Property<int>("LotID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MaterialsMaterialID")
                         .HasColumnType("int");
 
                     b.Property<float>("Quantity")
@@ -176,7 +182,9 @@ namespace Data.Migrations
 
                     b.HasIndex("ExportID");
 
-                    b.HasIndex("MaterialID");
+                    b.HasIndex("LotID");
+
+                    b.HasIndex("MaterialsMaterialID");
 
                     b.ToTable("ExportDetails", (string)null);
                 });
@@ -216,6 +224,9 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImportDetailID"));
+
+                    b.Property<DateOnly>("ExpirationDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("ImportID")
                         .HasColumnType("int");
@@ -337,6 +348,40 @@ namespace Data.Migrations
                     b.ToTable("Lot", (string)null);
                 });
 
+            modelBuilder.Entity("Data.Entities.LotDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LotId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantityAfter")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantityBefor")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LotId");
+
+                    b.ToTable("LotDetails", (string)null);
+                });
+
             modelBuilder.Entity("Data.Entities.Materials", b =>
                 {
                     b.Property<int>("MaterialID")
@@ -359,6 +404,9 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("SupplierID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalMaterial")
                         .HasColumnType("int");
 
                     b.Property<string>("Unit")
@@ -1051,15 +1099,19 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Materials", "Materials")
+                    b.HasOne("Data.Entities.Lot", "Lot")
                         .WithMany("ExportDetails")
-                        .HasForeignKey("MaterialID")
+                        .HasForeignKey("LotID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Data.Entities.Materials", null)
+                        .WithMany("ExportDetails")
+                        .HasForeignKey("MaterialsMaterialID");
+
                     b.Navigation("Export");
 
-                    b.Navigation("Materials");
+                    b.Navigation("Lot");
                 });
 
             modelBuilder.Entity("Data.Entities.ExportReceipts", b =>
@@ -1131,6 +1183,17 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Materials");
+                });
+
+            modelBuilder.Entity("Data.Entities.LotDetails", b =>
+                {
+                    b.HasOne("Data.Entities.Lot", "Lot")
+                        .WithMany("LotDetails")
+                        .HasForeignKey("LotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lot");
                 });
 
             modelBuilder.Entity("Data.Entities.Materials", b =>
@@ -1367,6 +1430,13 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.ImportReceipts", b =>
                 {
                     b.Navigation("ImportDetails");
+                });
+
+            modelBuilder.Entity("Data.Entities.Lot", b =>
+                {
+                    b.Navigation("ExportDetails");
+
+                    b.Navigation("LotDetails");
                 });
 
             modelBuilder.Entity("Data.Entities.Materials", b =>

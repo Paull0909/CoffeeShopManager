@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class updatedatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -156,7 +156,8 @@ namespace Data.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CostPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "bit", nullable: false)
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    UrlImg = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -495,6 +496,7 @@ namespace Data.Migrations
                     Gender = table.Column<bool>(type: "bit", nullable: false),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmploymentType = table.Column<bool>(type: "bit", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PositionID = table.Column<int>(type: "int", nullable: false),
@@ -592,7 +594,8 @@ namespace Data.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     QuantityBefor = table.Column<int>(type: "int", nullable: false),
                     QuantityAfter = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

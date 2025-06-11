@@ -22,8 +22,29 @@ namespace CoffeeAPI.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
         [HttpGet("GetAllProductSizes")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var size = await _unitOfWork.ProductSizesRepository.GetAllAsync();
+                var list = new List<ProductSizesViewModel>();
+                foreach (var item in size)
+                {
+                    var ep = _mapper.Map<ProductSizesViewModel>(item);
+                    var i = await _unitOfWork.ProductsRepository.GetByIdAsync(item.ProductID);
+                    ep.ProductName = i?.ProductName;
+                    list.Add(ep);
+                }
+                return Ok(list);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetProductSizesByProduct")]
         public async Task<IActionResult> GetByProduct(int id)
         {
             try
