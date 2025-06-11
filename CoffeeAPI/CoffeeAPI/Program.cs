@@ -16,6 +16,7 @@ using Data.DTO.LotDetails;
 using Data.DTO.Materials;
 using Data.DTO.OrderDetails;
 using Data.DTO.Orders;
+using Data.DTO.OrderToppingDetails;
 using Data.DTO.Payments;
 using Data.DTO.Positions;
 using Data.DTO.Products;
@@ -74,7 +75,7 @@ builder.Services.AddAutoMapper(typeof(TimekeepingCreateUpdateRequest));
 builder.Services.AddAutoMapper(typeof(ToppingsCreateUpdateRequest));
 builder.Services.AddAutoMapper(typeof(LotCreateUpdateRequest));
 builder.Services.AddAutoMapper(typeof(LotDetailsCreateUpdateRequets));
-
+builder.Services.AddAutoMapper(typeof(OrderToppingDetailsCreateUpdateReuqest));
 //Authen and author
 builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
 builder.Services.AddIdentity<User, Role>()

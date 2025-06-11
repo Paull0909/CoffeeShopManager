@@ -36,19 +36,78 @@ namespace CoffeeAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(OrdersCreateUpdateRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateOrder request)
         {
             try
             {
                 if (request == null || request.orderDetails == null) return BadRequest();
-                var i = _mapper.Map<Orders>(request);
-                _unitOfWork.OrdersRepository.Add(i);
-                foreach(var j in request.orderDetails)
+                //tao order
+                var order = new Orders()
                 {
-                    var ord = _mapper.Map<OrderDetails>(j);
-                    ord.OrderID = i.OrderID;
+                    EmployeeID = request.EmployeeID,
+                    OrderDate = DateTime.Now,
+                    Discount = request.Discount,
+                    PaymentStatus = (Data.Enum.TransactionStatus)request.PaymentStatus,
+                    TableNumberID = request.TableNumberID,
+                };
+                _unitOfWork.OrdersRepository.Add(order);
+                await _unitOfWork.CompleteAsync();
+
+                decimal totalOrderAmount = 0;
+
+                foreach (var orderdetail in request.orderDetails)
+                {
+                    //tao order details
+                    var product = await _unitOfWork.ProductsRepository.GetByIdAsync(orderdetail.ProductID);
+                    var productsize = await _unitOfWork.ProductSizesRepository.GetByIdAsync(orderdetail.SizeID);
+
+                    // var ord = _mapper.Map<OrderDetails>(j);
+                    var ord = new OrderDetails()
+                    {
+                        OrderID = order.OrderID,
+                        ProductID = product.ProductID,
+                        SizeID = productsize.ProductSizeID,
+                        UnitPrice = productsize.AdditionalPrice,
+                        Quantity = orderdetail.Quantity,
+                        TotalPrice = orderdetail.Quantity * productsize.AdditionalPrice,
+                    };
                     _unitOfWork.OrderDetailsRepository.Add(ord);
+                    await _unitOfWork.CompleteAsync();
+
+                    decimal totalDetailPrice = ord.TotalPrice;
+
+                    if (orderdetail.OrderToppingDetails != null)
+                    {
+                        foreach (var toppingDetail in orderdetail.OrderToppingDetails)
+                        {
+                            var topping = await _unitOfWork.ToppingsRepository.GetByIdAsync(toppingDetail.ToppingID);
+                            if (topping == null)
+                                return BadRequest("Topping không tồn tại.");
+
+                            var ordertopping = new OrderToppingDetails()
+                            {
+                                OrderDetailID = ord.OrderDetailID,
+                                UnitPrice = topping.Price,
+                                TotalPrice = toppingDetail.Quantity * topping.Price, 
+                                Quantity=toppingDetail.Quantity,
+                                ToppingID=topping.ToppingID,
+                                
+                            };
+
+                            totalDetailPrice += ordertopping.TotalPrice;
+                            _unitOfWork.OrderToppingDetailsRepository.Add(ordertopping);
+                        }
+                        await _unitOfWork.CompleteAsync();
+
+                    }
+
+
+                    totalOrderAmount += totalDetailPrice;
+                    
                 }
+
+                order.TotalAmount = totalOrderAmount;
+                order.FinalAmount = totalOrderAmount - (totalOrderAmount * order.Discount / 100);
                 await _unitOfWork.CompleteAsync();
                 return Ok();
             }

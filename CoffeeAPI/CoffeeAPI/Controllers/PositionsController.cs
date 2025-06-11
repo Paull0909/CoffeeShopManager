@@ -131,5 +131,20 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+
+        [HttpGet("GetPositionsByUserId")]
+        public async Task<IActionResult> GetPositionByUserId(Guid userId)
+        {
+            try
+            {
+                var result = await _unitOfWork.PositionsRepository.GetPositionByUserIdAsync(userId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
     }
 }

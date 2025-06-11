@@ -9,6 +9,7 @@ namespace Data.Entities
         [Required]
         public string TableName { get; set; }
         public TableStatus Status { get; set; }
+        public List<Orders> Orders { get; set; }
 
     }
 }

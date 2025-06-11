@@ -96,7 +96,6 @@ namespace CoffeeAPI.Controllers
         }
 
         [HttpGet("GetEmployeesByName")]
-        [HttpGet("GetByName")]
         public async Task<IActionResult> GetByName(string name)
         {
             try
@@ -115,6 +114,21 @@ namespace CoffeeAPI.Controllers
 
                     result.Add(vm);
                 }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpGet("GetEmployeByID")]
+        public async Task<IActionResult> GetEmployByPositionID(int id)
+        {
+            try
+            {
+                var result= await _unitOfWork.EmployeesRepository.GetEmloyeesByPositonID(id);
 
                 return Ok(result);
             }

@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 
-namespace Data.DTO.OrderDetails
+namespace Data.DTO.OrderToppingDetails
 {
-    public class OrderDetailsViewModel
+    public class OrderToppingDetailsViewModel
     {
+        public int OrderToppingDetailID { get; set; }
+        public int ToppingID { get; set; }
         public int OrderDetailID { get; set; }
-        public int OrderID { get; set; }
-        public int ProductID { get; set; }
-        public int SizeID { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
@@ -15,7 +14,7 @@ namespace Data.DTO.OrderDetails
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Entities.OrderDetails, OrderDetailsViewModel>();
+                CreateMap< Entities.OrderToppingDetails, OrderToppingDetailsViewModel>();
             }
         }
     }

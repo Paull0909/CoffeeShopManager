@@ -30,6 +30,7 @@ namespace Application.SeedWorks
         ITimekeepingRepository TimekeepingRepository { get; }
         IToppingsRepository ToppingsRepository { get; }
         ILotDeatailsRepository LotDeatailsRepository { get; }  
+        IOrderToppingDetailsRepository OrderToppingDetailsRepository { get; }
         Task<int> CompleteAsync();
     }
 }
