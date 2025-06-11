@@ -42,20 +42,37 @@ namespace CoffeeAPI.Controllers
             }
         }
         [HttpGet("GetTimekeepingByFilter")]
-        public async Task<IActionResult> GetByFilter(DateOnly start, DateOnly end, int EmployeeId)
+        public async Task<IActionResult> GetByFilter(DateOnly start, DateOnly end, int? EmployeeId)
         {
             try
             {
-                var cate = _unitOfWork.TimekeepingRepository.Find(x=>x.EmployeeID == EmployeeId && x.WorkDate >= start && x.WorkDate <= end).ToList();
-                var list = new List<TimekeepingViewModel>();
-                foreach (var item in cate)
+                if(EmployeeId != null)
                 {
-                    var i = _mapper.Map<TimekeepingViewModel>(item);
-                    var ep = await _unitOfWork.EmployeesRepository.GetByIdAsync(i.EmployeeID);
-                    i.FullName = ep?.FullName;
-                    list.Add(i);
+                    var cate = _unitOfWork.TimekeepingRepository.Find(x => x.EmployeeID == EmployeeId && x.WorkDate >= start && x.WorkDate <= end).ToList();
+                    var list = new List<TimekeepingViewModel>();
+                    foreach (var item in cate)
+                    {
+                        var i = _mapper.Map<TimekeepingViewModel>(item);
+                        var ep = await _unitOfWork.EmployeesRepository.GetByIdAsync(i.EmployeeID);
+                        i.FullName = ep?.FullName;
+                        list.Add(i);
+                    }
+                    return Ok(list);
                 }
-                return Ok(list);
+                else
+                {
+                    var cate = _unitOfWork.TimekeepingRepository.Find(x => x.WorkDate >= start && x.WorkDate <= end).ToList();
+                    var list = new List<TimekeepingViewModel>();
+                    foreach (var item in cate)
+                    {
+                        var i = _mapper.Map<TimekeepingViewModel>(item);
+                        var ep = await _unitOfWork.EmployeesRepository.GetByIdAsync(i.EmployeeID);
+                        i.FullName = ep?.FullName;
+                        list.Add(i);
+                    }
+                    return Ok(list);
+                }
+                
             }
             catch
             {
