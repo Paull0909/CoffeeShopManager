@@ -12,6 +12,7 @@ namespace Data.Configurations
             builder.Property(u => u.UserName)
                    .IsRequired()
                    .HasMaxLength(200);
+            builder.HasOne(x => x.Employees).WithMany(x => x.Users).HasForeignKey(x => x.EmployeeID).OnDelete(DeleteBehavior.Restrict); ;
         }
     }
 }

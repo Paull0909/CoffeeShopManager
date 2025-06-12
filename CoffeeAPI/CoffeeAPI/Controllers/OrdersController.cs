@@ -69,7 +69,7 @@ namespace CoffeeAPI.Controllers
                         SizeID = productsize.ProductSizeID,
                         UnitPrice = productsize.AdditionalPrice,
                         Quantity = orderdetail.Quantity,
-                        TotalPrice = orderdetail.Quantity * productsize.AdditionalPrice,
+                        TotalPrice = (product.Price +  productsize.AdditionalPrice) * orderdetail.Quantity,
                     };
                     _unitOfWork.OrderDetailsRepository.Add(ord);
                     await _unitOfWork.CompleteAsync();

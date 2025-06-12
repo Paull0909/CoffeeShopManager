@@ -20,10 +20,5 @@ namespace Application.Repositoty
         {
             _mapper = mapper;
         }
-
-        public async Task<Positions> GetPositionByUserIdAsync(Guid userid)
-        {
-            return await _context.Positions.FirstOrDefaultAsync(t => t.UserID == userid);
-        }
     }
 }

@@ -26,6 +26,7 @@ namespace Data.Entities
         public List<EmployeeSchedules> EmployeeSchedules { get; set; }
         public List<Orders> Orders { get; set; }
         public List<Salaries> Salaries { get; set; }
+        public List<User> Users { get; set; }
         public List<Timekeeping> Timekeepings { get; set; }
     }
 }

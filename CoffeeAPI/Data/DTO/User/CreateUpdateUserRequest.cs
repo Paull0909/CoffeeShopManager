@@ -6,6 +6,7 @@ namespace Data.DTO.User
     {
         [Required(ErrorMessage = "UserName is Required")]
         public string UserName { get; set; }
+        public int EmployeeID { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -16,5 +17,6 @@ namespace Data.DTO.User
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "Password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
     }
 }

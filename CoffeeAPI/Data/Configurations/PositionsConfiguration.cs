@@ -11,7 +11,6 @@ namespace Data.Configurations
             builder.ToTable("Positions");
             builder.HasKey(x => x.PositionID);
             builder.Property(x => x.PositionID).UseIdentityColumn();
-            builder.HasOne(x => x.User).WithMany(x => x.Positions).HasForeignKey(x => x.UserID);
         }
     }
 }

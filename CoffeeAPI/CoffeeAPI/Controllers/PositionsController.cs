@@ -30,8 +30,6 @@ namespace CoffeeAPI.Controllers
                 foreach(var item in cate)
                 {
                     var i = _mapper.Map<PositionsViewModel>(item);
-                    var ac = await _unitOfWork.UserRepository.GetUser(item.UserID);
-                    i.UserName = ac.UserName;
                     list.Add(i);
                 }
                 return Ok(list);
@@ -59,10 +57,6 @@ namespace CoffeeAPI.Controllers
                 foreach (var item in positions)
                 {
                     var vm = _mapper.Map<PositionsViewModel>(item);
-
-                    var user = await _unitOfWork.UserRepository.GetUser(item.UserID);
-                    vm.UserName = user?.UserName ?? "(Không rõ)";
-
                     result.Add(vm);
                 }
 
@@ -133,18 +127,18 @@ namespace CoffeeAPI.Controllers
         }
 
 
-        [HttpGet("GetPositionsByUserId")]
-        public async Task<IActionResult> GetPositionByUserId(Guid userId)
-        {
-            try
-            {
-                var result = await _unitOfWork.PositionsRepository.GetPositionByUserIdAsync(userId);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
-        }
+        //[HttpGet("GetPositionsByUserId")]
+        //public async Task<IActionResult> GetPositionByUserId(Guid userId)
+        //{
+        //    try
+        //    {
+        //        var result = await _unitOfWork.PositionsRepository.GetPositionByUserIdAsync(userId);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new { error = ex.Message });
+        //    }
+        //}
     }
 }
