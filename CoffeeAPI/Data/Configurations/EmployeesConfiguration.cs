@@ -12,6 +12,7 @@ namespace Data.Configurations
             builder.HasKey(x => x.EmployeeID);
             builder.Property(x => x.EmployeeID).UseIdentityColumn();
             builder.HasOne(x => x.Positions).WithMany(x => x.Employees).HasForeignKey(x => x.PositionID);
+            
         }
     }
 }

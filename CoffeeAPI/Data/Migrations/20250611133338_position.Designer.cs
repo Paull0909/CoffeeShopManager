@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Web_Context))]
-    [Migration("20250610022149_addOrderToppingDetails")]
-    partial class addOrderToppingDetails
+    [Migration("20250611133338_position")]
+    partial class position
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -447,9 +447,8 @@ namespace Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SizeID")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -521,9 +520,8 @@ namespace Data.Migrations
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("TableNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TableNumberID")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
@@ -531,6 +529,8 @@ namespace Data.Migrations
                     b.HasKey("OrderID");
 
                     b.HasIndex("EmployeeID");
+
+                    b.HasIndex("TableNumberID");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -589,12 +589,12 @@ namespace Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PositionID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Positions", (string)null);
                 });
@@ -937,6 +937,9 @@ namespace Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -978,6 +981,8 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -1301,7 +1306,15 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Data.Entities.Tables", "Tables")
+                        .WithMany("Orders")
+                        .HasForeignKey("TableNumberID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Employees");
+
+                    b.Navigation("Tables");
                 });
 
             modelBuilder.Entity("Data.Entities.Payments", b =>
@@ -1317,13 +1330,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Positions", b =>
                 {
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("Data.Entities.User", null)
                         .WithMany("Positions")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Data.Entities.ProductSizes", b =>
@@ -1401,6 +1410,17 @@ namespace Data.Migrations
                     b.Navigation("Employees");
                 });
 
+            modelBuilder.Entity("Data.Entities.User", b =>
+                {
+                    b.HasOne("Data.Entities.Employees", "Employees")
+                        .WithMany("Users")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Employees");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Data.Entities.Role", null)
@@ -1471,6 +1491,8 @@ namespace Data.Migrations
                     b.Navigation("Salaries");
 
                     b.Navigation("Timekeepings");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Data.Entities.ExportReceipts", b =>
@@ -1546,6 +1568,11 @@ namespace Data.Migrations
                     b.Navigation("ImportReceipts");
 
                     b.Navigation("Materials");
+                });
+
+            modelBuilder.Entity("Data.Entities.Tables", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Data.Entities.Toppings", b =>

@@ -35,6 +35,7 @@ namespace APIMUSIC.Controllers
             {
                 UserName = model.UserName,
                 Email = model.Email,
+                EmployeeID = model.EmployeeID,
                 CreateDate = DateTime.Now,
                 LockoutEnabled = false
             };

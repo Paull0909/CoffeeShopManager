@@ -124,12 +124,13 @@ namespace CoffeeAPI.Controllers
         }
 
         [HttpGet("GetEmployeByID")]
-        public async Task<IActionResult> GetEmployByPositionID(int id)
+        public async Task<IActionResult> GetEmployByUserID(Guid id)
         {
             try
             {
-                var result= await _unitOfWork.EmployeesRepository.GetEmloyeesByPositonID(id);
-
+                var user= await _unitOfWork.UserRepository.GetUser(id);
+                var employee = await _unitOfWork.EmployeesRepository.GetByIdAsync(user.EmployeeID);
+                var result = _mapper.Map<EmployeesViewModel>(employee);
                 return Ok(result);
             }
             catch (Exception ex)
