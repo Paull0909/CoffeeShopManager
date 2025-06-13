@@ -11,6 +11,7 @@ namespace Data.DTO.Orders
         public int TableNumberID { get; set; }
         public decimal Discount { get; set; }
         public int PaymentStatus { get; set; }
+        public string CodeOrder { get; set; }
 
         public List<CreateOrderDetails> orderDetails { get; set; }
     }
