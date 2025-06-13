@@ -87,7 +87,7 @@ namespace CoffeeAPI.Controllers
                             OrderID = order.OrderID,
                             ProductID = product.ProductID,
                             SizeID = productsize.ProductSizeID,
-                            UnitPrice = productsize.AdditionalPrice,
+                            UnitPrice = product.Price,
                             Quantity = orderdetail.Quantity,
                             TotalPrice = (product.Price + productsize.AdditionalPrice) * orderdetail.Quantity,
                         };
