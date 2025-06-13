@@ -24,12 +24,25 @@ namespace CoffeeAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GetAllOrder")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAllOrderByMonth")]
+        public async Task<IActionResult> GetAll(DateTime start)
         {
             try
             {
-                var eps = await _unitOfWork.OrdersRepository.GetAllAsync();
+                var eps = _unitOfWork.OrdersRepository.Find(x=>x.OrderDate.Month == start.Month && x.OrderDate.Year == start.Year).ToList();
+                return Ok(eps);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("GetOrderByDate")]
+        public async Task<IActionResult> GetByDate(DateTime start, DateTime end)
+        {
+            try
+            {
+                var eps = _unitOfWork.OrdersRepository.Find(x => x.OrderDate >= start && x.OrderDate <= end).ToList();
                 return Ok(eps);
             }
             catch
