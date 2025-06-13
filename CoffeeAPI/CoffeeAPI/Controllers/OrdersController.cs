@@ -1,11 +1,14 @@
 ﻿using Application.SeedWorks;
+using Application.Service;
 using AutoMapper;
 using Data.DTO.OrderDetails;
 using Data.DTO.Orders;
 using Data.DTO.Tables;
 using Data.Entities;
+using Data.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CoffeeAPI.Controllers
 {
@@ -49,67 +52,130 @@ namespace CoffeeAPI.Controllers
                     Discount = request.Discount,
                     PaymentStatus = (Data.Enum.TransactionStatus)request.PaymentStatus,
                     TableNumberID = request.TableNumberID,
+                    CodeOrder=request.CodeOrder,
                 };
-                _unitOfWork.OrdersRepository.Add(order);
-                await _unitOfWork.CompleteAsync();
-
-                decimal totalOrderAmount = 0;
-
-                foreach (var orderdetail in request.orderDetails)
+                if(order.PaymentStatus ==Data.Enum.TransactionStatus.Offline)
                 {
-                    //tao order details
-                    var product = await _unitOfWork.ProductsRepository.GetByIdAsync(orderdetail.ProductID);
-                    var productsize = await _unitOfWork.ProductSizesRepository.GetByIdAsync(orderdetail.SizeID);
-
-                    // var ord = _mapper.Map<OrderDetails>(j);
-                    var ord = new OrderDetails()
-                    {
-                        OrderID = order.OrderID,
-                        ProductID = product.ProductID,
-                        SizeID = productsize.ProductSizeID,
-                        UnitPrice = productsize.AdditionalPrice,
-                        Quantity = orderdetail.Quantity,
-                        TotalPrice = (product.Price +  productsize.AdditionalPrice) * orderdetail.Quantity,
-                    };
-                    _unitOfWork.OrderDetailsRepository.Add(ord);
+                    order.OrderStatus = true;
+                    _unitOfWork.OrdersRepository.Add(order);
                     await _unitOfWork.CompleteAsync();
 
-                    decimal totalDetailPrice = ord.TotalPrice;
+                    decimal totalOrderAmount = 0;
 
-                    if (orderdetail.OrderToppingDetails != null)
+                    foreach (var orderdetail in request.orderDetails)
                     {
-                        foreach (var toppingDetail in orderdetail.OrderToppingDetails)
+                        //tao order details
+                        var product = await _unitOfWork.ProductsRepository.GetByIdAsync(orderdetail.ProductID);
+                        var productsize = await _unitOfWork.ProductSizesRepository.GetByIdAsync(orderdetail.SizeID);
+
+                        // var ord = _mapper.Map<OrderDetails>(j);
+                        var ord = new OrderDetails()
                         {
-                            var topping = await _unitOfWork.ToppingsRepository.GetByIdAsync(toppingDetail.ToppingID);
-                            if (topping == null)
-                                return BadRequest("Topping không tồn tại.");
-
-                            var ordertopping = new OrderToppingDetails()
-                            {
-                                OrderDetailID = ord.OrderDetailID,
-                                UnitPrice = topping.Price,
-                                TotalPrice = toppingDetail.Quantity * topping.Price, 
-                                Quantity=toppingDetail.Quantity,
-                                ToppingID=topping.ToppingID,
-                                
-                            };
-
-                            totalDetailPrice += ordertopping.TotalPrice;
-                            _unitOfWork.OrderToppingDetailsRepository.Add(ordertopping);
-                        }
+                            OrderID = order.OrderID,
+                            ProductID = product.ProductID,
+                            SizeID = productsize.ProductSizeID,
+                            UnitPrice = productsize.AdditionalPrice,
+                            Quantity = orderdetail.Quantity,
+                            TotalPrice = (product.Price + productsize.AdditionalPrice) * orderdetail.Quantity,
+                        };
+                        _unitOfWork.OrderDetailsRepository.Add(ord);
                         await _unitOfWork.CompleteAsync();
+
+                        decimal totalDetailPrice = ord.TotalPrice;
+
+                        if (orderdetail.OrderToppingDetails != null)
+                        {
+                            foreach (var toppingDetail in orderdetail.OrderToppingDetails)
+                            {
+                                var topping = await _unitOfWork.ToppingsRepository.GetByIdAsync(toppingDetail.ToppingID);
+                                if (topping == null)
+                                    return BadRequest("Topping không tồn tại.");
+
+                                var ordertopping = new OrderToppingDetails()
+                                {
+                                    OrderDetailID = ord.OrderDetailID,
+                                    UnitPrice = topping.Price,
+                                    TotalPrice = toppingDetail.Quantity * topping.Price,
+                                    Quantity = toppingDetail.Quantity,
+                                    ToppingID = topping.ToppingID,
+
+                                };
+
+                                totalDetailPrice += ordertopping.TotalPrice;
+                                _unitOfWork.OrderToppingDetailsRepository.Add(ordertopping);
+                            }
+                            await _unitOfWork.CompleteAsync();
+
+                        }
+
+
+                        totalOrderAmount += totalDetailPrice;
 
                     }
 
-
-                    totalOrderAmount += totalDetailPrice;
-                    
+                    order.TotalAmount = totalOrderAmount;
+                    order.FinalAmount = totalOrderAmount - (totalOrderAmount * order.Discount / 100);
+                    await _unitOfWork.CompleteAsync();
+                    return Ok();
                 }
+                else
+                {
+                    order.OrderStatus = false;
+                    _unitOfWork.OrdersRepository.Add(order);
+                    await _unitOfWork.CompleteAsync();
 
-                order.TotalAmount = totalOrderAmount;
-                order.FinalAmount = totalOrderAmount - (totalOrderAmount * order.Discount / 100);
-                await _unitOfWork.CompleteAsync();
-                return Ok();
+                    decimal totalOrderAmount = 0;
+
+                    foreach (var orderdetail in request.orderDetails)
+                    {
+                        //tao order details
+                        var product = await _unitOfWork.ProductsRepository.GetByIdAsync(orderdetail.ProductID);
+                        var productsize = await _unitOfWork.ProductSizesRepository.GetByIdAsync(orderdetail.SizeID);
+
+                        // var ord = _mapper.Map<OrderDetails>(j);
+                        var ord = new OrderDetails()
+                        {
+                            OrderID = order.OrderID,
+                            ProductID = product.ProductID,
+                            SizeID = productsize.ProductSizeID,
+                            UnitPrice = productsize.AdditionalPrice,
+                            Quantity = orderdetail.Quantity,
+                            TotalPrice = (product.Price + productsize.AdditionalPrice) * orderdetail.Quantity,
+                        };
+                        _unitOfWork.OrderDetailsRepository.Add(ord);
+                        await _unitOfWork.CompleteAsync();
+
+                        decimal totalDetailPrice = ord.TotalPrice;
+
+                        if (orderdetail.OrderToppingDetails != null)
+                        {
+                            foreach (var toppingDetail in orderdetail.OrderToppingDetails)
+                            {
+                                var topping = await _unitOfWork.ToppingsRepository.GetByIdAsync(toppingDetail.ToppingID);
+                                if (topping == null)
+                                    return BadRequest("Topping không tồn tại.");
+                                var ordertopping = new OrderToppingDetails()
+                                {
+                                    OrderDetailID = ord.OrderDetailID,
+                                    UnitPrice = topping.Price,
+                                    TotalPrice = toppingDetail.Quantity * topping.Price,
+                                    Quantity = toppingDetail.Quantity,
+                                    ToppingID = topping.ToppingID,
+                                };
+
+                                totalDetailPrice += ordertopping.TotalPrice;
+                                _unitOfWork.OrderToppingDetailsRepository.Add(ordertopping);
+                            }
+                            await _unitOfWork.CompleteAsync();
+                        }
+                        totalOrderAmount += totalDetailPrice;
+                    }
+                    order.TotalAmount = totalOrderAmount;
+                    order.FinalAmount = totalOrderAmount - (totalOrderAmount * order.Discount / 100);
+                    await _unitOfWork.CompleteAsync();
+                    return Ok();
+                }
+                
             }
             catch
             {
@@ -152,6 +218,61 @@ namespace CoffeeAPI.Controllers
                 }
                 else
                     return BadRequest();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("generate-code")]
+        public async Task<IActionResult> GenerateCode()
+        {
+            var code = StringGenerator.GenerateRandomString();
+            var check = await _unitOfWork.OrdersRepository.CheckCodeOrder(code);
+            if(check == true)
+            {
+                code = StringGenerator.GenerateRandomString();
+               
+            }
+            return Ok(new { Code = code });
+        }
+
+        [HttpGet("GetOrderByCodeOrder")]
+        public async Task<IActionResult> GetOrderByCodeOrder(string code)
+        {
+            try
+            {
+                var eps = await _unitOfWork.OrdersRepository.GetOrderByCodeOrder(code);
+                return Ok(eps);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("UpdateOrderByOrderStatus")]
+        public async Task<IActionResult> UpdateOrderByOrderStatus(int id,bool status)
+        {
+            try
+            {
+                var eps = await _unitOfWork.OrdersRepository.UpdateOrderByOrderStatus(id, status);
+                return Ok(eps);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("BankTransferToCash")]
+        public async Task<IActionResult> BankTransferToCash(int id,TransactionStatus transactionStatus, bool status)
+        {
+            try
+            {
+                var eps = await _unitOfWork.OrdersRepository.BankTransferToCash(id,transactionStatus,status);
+                return Ok(eps);
             }
             catch
             {

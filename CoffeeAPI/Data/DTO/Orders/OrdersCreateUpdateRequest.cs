@@ -13,6 +13,7 @@ namespace Data.DTO.Orders
         public decimal TotalAmount { get; set; }
         public decimal Discount { get; set; }
         public decimal FinalAmount { get; set; }
+        public bool OrderStatus { get; set; }
         public TransactionStatus PaymentStatus { get; set; }
         public List<OrderDetailsCreateUpdateRequest> orderDetails { get; set; }
         public class AutoMapperProfiles : Profile
