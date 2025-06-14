@@ -22,6 +22,12 @@ namespace Application.Repositoty
             _mapper = mapper;
         }
 
+        public async Task<List<Tables>> GetOrderNumberTagByStatus(TableStatus status)
+        {
+            var result = await _context.Tables.Where(t => t.Status == status).ToListAsync();
+            return result;
+        }
+
         public async Task<Tables> updateStatus(int id, TableStatus status)
         {
             var result= await _context.Tables.FirstOrDefaultAsync(t=>t.TableID==id);

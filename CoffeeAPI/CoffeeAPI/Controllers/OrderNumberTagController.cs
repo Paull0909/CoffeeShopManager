@@ -136,5 +136,20 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetOrderNumberTagByStatus")]
+        public async Task<IActionResult> GetOrderNumberTagByStatus(TableStatus status)
+        {
+            try
+            {
+                var result = await _unitOfWork.TablesRepository.GetOrderNumberTagByStatus(status);
+
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

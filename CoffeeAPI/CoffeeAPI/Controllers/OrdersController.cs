@@ -205,7 +205,13 @@ namespace CoffeeAPI.Controllers
                 var list = await _unitOfWork.OrderDetailsRepository.GetByOrderID(id);
                 foreach (var item in list)
                 {
+                    var listTopping = await _unitOfWork.OrderToppingDetailsRepository.GetByOrderDetailsID(item.OrderDetailID);
+                    foreach(var topping in listTopping)
+                    {
+                        _unitOfWork.OrderToppingDetailsRepository.Remove(topping);
+                    }    
                     _unitOfWork.OrderDetailsRepository.Remove(item);
+
                 }
                 _unitOfWork.OrdersRepository.Remove(or);
                 await _unitOfWork.CompleteAsync();
@@ -257,6 +263,20 @@ namespace CoffeeAPI.Controllers
             try
             {
                 var eps = await _unitOfWork.OrdersRepository.GetOrderByCodeOrder(code);
+                return Ok(eps);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetOrderByDay")]
+        public async Task<IActionResult> GetOrderByDay()
+        {
+            try
+            {
+                var eps = await _unitOfWork.OrdersRepository.GetAllOrdersByDay();
                 return Ok(eps);
             }
             catch

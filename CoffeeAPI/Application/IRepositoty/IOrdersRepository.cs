@@ -9,6 +9,7 @@ namespace Application.IRepositoty
         Task<bool> CheckCodeOrder(string code);
         Task<Orders> GetOrderByCodeOrder(string code);
         Task<Orders> UpdateOrderByOrderStatus(int id, bool status);
+        Task<List<Orders>> GetAllOrdersByDay();
         Task<Orders> BankTransferToCash (int id,TransactionStatus transactionStatus,bool orderStatus);
     }
 }
