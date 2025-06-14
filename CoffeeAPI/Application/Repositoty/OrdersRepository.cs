@@ -36,6 +36,12 @@ namespace Application.Repositoty
             return false;
         }
 
+        public async Task<List<Orders>> GetAllOrdersByDay()
+        {
+            var orders = await _context.Orders.Where(t=>t.OrderDate.Day==DateTime.Today.Day).ToListAsync();
+            return orders;
+        }
+
         public async Task<Orders> GetOrderByCodeOrder(string code)
         {
             var result = await _context.Orders.FirstOrDefaultAsync(t => t.CodeOrder == code);
