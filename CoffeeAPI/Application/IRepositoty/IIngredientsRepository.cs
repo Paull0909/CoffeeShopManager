@@ -3,7 +3,7 @@ using Data.Entities;
 
 namespace Application.IRepositoty
 {
-    public interface IPaymentsRepository : IRepository<Payments, int>
+    public interface IIngredientsRepository : IRepository<Ingredients, int>
     {
     }
 }

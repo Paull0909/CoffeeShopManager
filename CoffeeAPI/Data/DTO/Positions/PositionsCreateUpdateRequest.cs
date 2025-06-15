@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Data.DTO.Payments;
 
 namespace Data.DTO.Positions
 {

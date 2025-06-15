@@ -21,13 +21,11 @@ namespace Application.Service
             ExportReceiptsRepository = new ExportReceiptsRepository(context, mapper);
             ImportDetailsRepository = new ImportDetailsRepository(context, mapper);
             ImportReceiptsRepository = new ImportReceiptsRepository(context, mapper);
-            InventoryLogsRepository = new InventoryLogsRepository(context, mapper);
             MaterialsRepository = new MaterialsRepository(context, mapper);
             LotRepository = new LotRepository(context, mapper);
             OrderDetailsRepository = new OrderDetailsRepository(context, mapper);
             UserRepository = new UserRepository(context, mapper);
             OrdersRepository = new OrdersRepository(context, mapper);
-            PaymentsRepository = new PaymentsRepository(context, mapper);
             PositionsRepository = new PositionsRepository(context, mapper);
             ProductsRepository = new ProductsRepository(context, mapper);
             ProductSizesRepository = new ProductSizesRepository(context, mapper);
@@ -40,6 +38,7 @@ namespace Application.Service
             ToppingsRepository = new ToppingsRepository(context, mapper);
             LotDeatailsRepository = new LotDetailsRepository(context, mapper);
             OrderToppingDetailsRepository=new OrderToppingDetailsRepository(context, mapper);
+            IngredientsRepository = new IngredientsRepository(context, mapper);
         }
         public ICategories_MaterialRepository Categories_MaterialRepository { get; private set; }
         public ICategories_ProductsRepository Categories_ProductsRepository { get; private set; }
@@ -49,12 +48,10 @@ namespace Application.Service
         public IExportReceiptsRepository ExportReceiptsRepository { get; private set; }
         public IImportDetailsRepository ImportDetailsRepository { get; private set; }
         public IImportReceiptsRepository ImportReceiptsRepository { get; private set; }
-        public IInventoryLogsRepository InventoryLogsRepository { get; private set; }
         public IUserRepository UserRepository { get; private set; }
         public IMaterialsRepository MaterialsRepository { get; private set; }
         public IOrderDetailsRepository OrderDetailsRepository { get; private set; }
         public IOrdersRepository OrdersRepository { get; private set; }
-        public IPaymentsRepository PaymentsRepository { get; private set; }
         public IPositionsRepository PositionsRepository { get; private set; }
         public IProductsRepository ProductsRepository { get; private set; }
         public IProductSizesRepository ProductSizesRepository { get; private set; }
@@ -69,6 +66,7 @@ namespace Application.Service
         public ILotRepository LotRepository { get; private set; }
 
         public ILotDeatailsRepository LotDeatailsRepository { get; private set; }
+        public IIngredientsRepository IngredientsRepository { get; private set; }
 
         public IOrderToppingDetailsRepository OrderToppingDetailsRepository { get; private set; }
 

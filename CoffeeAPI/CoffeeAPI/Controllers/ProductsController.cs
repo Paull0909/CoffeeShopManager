@@ -70,6 +70,23 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetProductsBySize")]
+        public async Task<IActionResult> GetBySize(int sizeID)
+        {
+            try
+            {
+                var size = await _unitOfWork.ProductSizesRepository.GetByIdAsync(sizeID);
+                var pr = await _unitOfWork.ProductsRepository.GetByIdAsync(size.ProductID);
+                var result = _mapper.Map<ProductsViewModel>(pr);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("GetProductsByNameandCate")]
         public async Task<IActionResult> GetByNameandCate(string name, int id)
         {

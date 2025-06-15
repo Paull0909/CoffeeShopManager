@@ -34,6 +34,20 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetRecipesByProduct")]
+        public async Task<IActionResult> GetByProduct(int sizeID)
+        {
+            try
+            {
+                var rc = _unitOfWork.RecipesRepository.Find(x=>x.ProductSizeID == sizeID).ToList();
+                return Ok(rc);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(RecipesCreateUpdateRequest request)
         {
@@ -71,7 +85,7 @@ namespace CoffeeAPI.Controllers
         {
             try
             {
-                var rc = await _unitOfWork.PositionsRepository.GetByIdAsync(request.RecipeID);
+                var rc = await _unitOfWork.RecipesRepository.GetByIdAsync(request.RecipeID);
                 if (rc != null)
                 {
                     var i = _mapper.Map(request,rc);

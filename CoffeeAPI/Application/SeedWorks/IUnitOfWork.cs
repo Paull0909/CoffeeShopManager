@@ -13,12 +13,11 @@ namespace Application.SeedWorks
         IImportDetailsRepository ImportDetailsRepository { get; }
         IUserRepository UserRepository { get; }
         IImportReceiptsRepository ImportReceiptsRepository { get; }
-        IInventoryLogsRepository InventoryLogsRepository { get; }
         IMaterialsRepository MaterialsRepository { get; }
         ILotRepository LotRepository { get; }
+        IIngredientsRepository IngredientsRepository { get; }
         IOrderDetailsRepository OrderDetailsRepository { get; }
         IOrdersRepository OrdersRepository { get; }
-        IPaymentsRepository PaymentsRepository { get; }
         IPositionsRepository PositionsRepository { get; }
         IProductSizesRepository ProductSizesRepository { get; }
         IProductsRepository ProductsRepository { get; }
