@@ -11,8 +11,8 @@ namespace Data.Configurations
             builder.ToTable("Recipes");
             builder.HasKey(x => x.RecipeID);
             builder.Property(x => x.RecipeID).UseIdentityColumn();
-            builder.HasOne(x => x.ProductSizes).WithOne(x => x.Recipes).HasForeignKey<Recipes>(x => x.ProductSizeID);
-            builder.HasOne(x => x.Materials).WithMany(x => x.Recipes).HasForeignKey(x => x.MaterialID);
+            builder.HasOne(x => x.ProductSizes).WithMany(x => x.Recipes).HasForeignKey(x => x.ProductSizeID);
+            builder.HasOne(x => x.Ingredients).WithMany(x => x.Recipes).HasForeignKey(x => x.IngredientsID);
         }
     }
 }

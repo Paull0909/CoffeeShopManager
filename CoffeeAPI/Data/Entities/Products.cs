@@ -18,6 +18,5 @@ namespace Data.Entities
         public Categories_Products categories { get; set; }
         public List<OrderDetails> OrderDetails { get; set; }
         public List<ProductSizes> ProductSizes { get; set; }
-        public List<Recipes> Recipes { get; set; }
     }
 }

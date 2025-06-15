@@ -4,6 +4,7 @@ using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Web_Context))]
-    partial class Web_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250614111235_update_recipes1")]
+    partial class update_recipes1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,27 +283,6 @@ namespace Data.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("ImportReceipts", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Ingredients", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Lot", b =>
@@ -632,20 +614,29 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecipeID"));
 
-                    b.Property<int>("IngredientsID")
-                        .HasColumnType("int");
+                    b.Property<string>("MaterialName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductSizeID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductsProductID")
                         .HasColumnType("int");
 
                     b.Property<float>("Quantity")
                         .HasColumnType("real");
 
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("RecipeID");
 
-                    b.HasIndex("IngredientsID");
+                    b.HasIndex("ProductSizeID")
+                        .IsUnique();
 
-                    b.HasIndex("ProductSizeID");
+                    b.HasIndex("ProductsProductID");
 
                     b.ToTable("Recipes", (string)null);
                 });
@@ -1288,19 +1279,15 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Recipes", b =>
                 {
-                    b.HasOne("Data.Entities.Ingredients", "Ingredients")
-                        .WithMany("Recipes")
-                        .HasForeignKey("IngredientsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Data.Entities.ProductSizes", "ProductSizes")
-                        .WithMany("Recipes")
-                        .HasForeignKey("ProductSizeID")
+                        .WithOne("Recipes")
+                        .HasForeignKey("Data.Entities.Recipes", "ProductSizeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Ingredients");
+                    b.HasOne("Data.Entities.Products", null)
+                        .WithMany("Recipes")
+                        .HasForeignKey("ProductsProductID");
 
                     b.Navigation("ProductSizes");
                 });
@@ -1430,11 +1417,6 @@ namespace Data.Migrations
                     b.Navigation("ImportDetails");
                 });
 
-            modelBuilder.Entity("Data.Entities.Ingredients", b =>
-                {
-                    b.Navigation("Recipes");
-                });
-
             modelBuilder.Entity("Data.Entities.Lot", b =>
                 {
                     b.Navigation("ExportDetails");
@@ -1468,7 +1450,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.ProductSizes", b =>
                 {
-                    b.Navigation("Recipes");
+                    b.Navigation("Recipes")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Entities.Products", b =>
@@ -1476,6 +1459,8 @@ namespace Data.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ProductSizes");
+
+                    b.Navigation("Recipes");
                 });
 
             modelBuilder.Entity("Data.Entities.Shifts", b =>

@@ -10,6 +10,6 @@ namespace Data.Entities
         public string SizeName { get; set; }
         public decimal AdditionalPrice { get; set; }
         public Products Products { get; set; }
-        public Recipes Recipes { get; set; }
+        public List<Recipes> Recipes { get; set; }
     }
 }

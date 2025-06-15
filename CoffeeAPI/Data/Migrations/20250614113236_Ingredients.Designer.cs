@@ -4,6 +4,7 @@ using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Web_Context))]
-    partial class Web_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250614113236_Ingredients")]
+    partial class Ingredients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -645,7 +648,8 @@ namespace Data.Migrations
 
                     b.HasIndex("IngredientsID");
 
-                    b.HasIndex("ProductSizeID");
+                    b.HasIndex("ProductSizeID")
+                        .IsUnique();
 
                     b.ToTable("Recipes", (string)null);
                 });
@@ -1295,8 +1299,8 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Data.Entities.ProductSizes", "ProductSizes")
-                        .WithMany("Recipes")
-                        .HasForeignKey("ProductSizeID")
+                        .WithOne("Recipes")
+                        .HasForeignKey("Data.Entities.Recipes", "ProductSizeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1468,7 +1472,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.ProductSizes", b =>
                 {
-                    b.Navigation("Recipes");
+                    b.Navigation("Recipes")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Entities.Products", b =>

@@ -18,7 +18,6 @@ namespace Data.Entities
         public bool OrderStatus { get; set; }
         public List<OrderDetails> OrderDetails { get; set; }
         public Employees Employees { get; set; }
-        public Payments Payments { get; set; }
         public Tables Tables { get; set; }
     }
 }

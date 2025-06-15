@@ -21,13 +21,11 @@ namespace Data.Context
             modelBuilder.ApplyConfiguration(new ExportReceiptsConfiguration());
             modelBuilder.ApplyConfiguration(new ImportDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new ImportReceiptsConfiguration());
-            modelBuilder.ApplyConfiguration(new InventoryLogsConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialsConfiguration());
             modelBuilder.ApplyConfiguration(new LotConfiguration());
             modelBuilder.ApplyConfiguration(new LotDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new OrderDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new OrdersConfiguration());
-            modelBuilder.ApplyConfiguration(new PaymentsConfiguration());
             modelBuilder.ApplyConfiguration(new PositionsConfiguration());
             modelBuilder.ApplyConfiguration(new ProductsConfiguration());
             modelBuilder.ApplyConfiguration(new ProductSizesConfiguration());
@@ -41,7 +39,7 @@ namespace Data.Context
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new OrderToppingDetailsConfiguration());
-
+            modelBuilder.ApplyConfiguration(new IngredientsConfigurations());
         }
         public DbSet<Categories_Material> Categories_Materials { get; set; }
         public DbSet<Categories_Products> Categories_Products { get; set; }
@@ -51,15 +49,14 @@ namespace Data.Context
         public DbSet<ExportReceipts> ExportReceipts { get; set; }
         public DbSet<ImportDetails> ImportDetails { get; set; }
         public DbSet<ImportReceipts> ImportReceipts { get; set; }
-        public DbSet<InventoryLogs> InventoryLogs { get; set; }
         public DbSet<Materials> Materials { get; set; }
         public DbSet<Lot> Lots { get; set; }
         public DbSet<LotDetails> LotsDetails { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Ingredients> Ingredients { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Orders> Orders { get; set; }
-        public DbSet<Payments> Payments { get; set; }
         public DbSet<Positions> Positions { get; set; }
         public DbSet<Products> Products { get; set; }
         public DbSet<ProductSizes> ProductSizes { get; set; }
