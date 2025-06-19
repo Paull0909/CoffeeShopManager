@@ -42,7 +42,21 @@ namespace CoffeeAPI.Controllers
         {
             try
             {
-                var eps = _unitOfWork.OrdersRepository.Find(x => x.OrderDate >= start && x.OrderDate <= end).ToList();
+                var eps = _unitOfWork.OrdersRepository.Find(x => x.OrderDate.Date >= start.Date && x.OrderDate.Date <= end.Date).ToList();
+                return Ok(eps);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetAllOrderByPayStatus")]
+        public async Task<IActionResult> GetByStatus(DateTime start, DateTime end)
+        {
+            try
+            {
+                var eps = _unitOfWork.OrdersRepository.Find(x => x.OrderDate.Date >= start.Date && x.OrderDate.Date <= end.Date && x.PaymentStatus == Data.Enum.TransactionStatus.Online).ToList();
                 return Ok(eps);
             }
             catch
