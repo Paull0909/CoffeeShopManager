@@ -118,9 +118,9 @@ namespace CoffeeAPI.Controllers
                 var report = new ReportViewModel();
                 var list = new List<OrderDetailsViewModel>();
                 int ep = _unitOfWork.EmployeesRepository.Find(x => x.Status == true).Count();
-                int or = _unitOfWork.OrdersRepository.Find(x => x.OrderDate >= start && x.OrderDate <= end).Count();
-                decimal total = _unitOfWork.OrdersRepository.Find(x => x.OrderDate >= start && x.OrderDate <= end).Sum(x => x.FinalAmount);
-                var orpr = _unitOfWork.OrdersRepository.Find(x => x.OrderDate >= start && x.OrderDate <= end).ToList();
+                int or = _unitOfWork.OrdersRepository.Find(x => x.OrderDate.Date >= start.Date && x.OrderDate.Date <= end.Date).Count();
+                decimal total = _unitOfWork.OrdersRepository.Find(x => x.OrderDate.Date >= start.Date && x.OrderDate.Date <= end.Date).Sum(x => x.FinalAmount);
+                var orpr = _unitOfWork.OrdersRepository.Find(x => x.OrderDate.Date >= start.Date && x.OrderDate.Date <= end.Date).ToList();
                 foreach (var i in orpr)
                 {
                     var j = _unitOfWork.OrderDetailsRepository.Find(x => x.OrderID == i.OrderID).ToList();
@@ -160,7 +160,7 @@ public async Task<IActionResult> GetReportForIngredients(DateTime start, DateTim
     try
     {
         // 1. Lấy danh sách đơn hàng trong khoảng thời gian
-        var orders = _unitOfWork.OrdersRepository.Find(x => x.OrderDate >= start && x.OrderDate <= end).ToList();
+        var orders = _unitOfWork.OrdersRepository.Find(x => x.OrderDate.Date >= start.Date && x.OrderDate.Date <= end.Date).ToList();
 
         // 2. Lấy danh sách OrderDetails tương ứng
         var allDetails = new List<OrderDetailsViewModel>();
