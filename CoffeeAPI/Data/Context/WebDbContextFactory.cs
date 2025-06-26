@@ -10,8 +10,8 @@ namespace Data.EF
         public Web_Context CreateDbContext(string[] args)
         {
             // Đường dẫn tới thư mục chứa appsettings.json
-            var appSettingsPath = Path.Combine("D:\\CoffeeShopManager\\CoffeeAPI\\CoffeeAPI");
-            // Kiểm tra file appsettings.json có tồn tại không
+            var appSettingsPath = Path.Combine("D:\\LuanVanTotNghiep\\CoffeeShopManager\\CoffeeAPI\\CoffeeAPI");
+        // Kiểm tra file appsettings.json có tồn tại không
             if (!File.Exists(Path.Combine(appSettingsPath, "appsettings.json")))
             {
                 throw new FileNotFoundException("Không tìm thấy file appsettings.json", Path.Combine(appSettingsPath, "appsettings.json"));
