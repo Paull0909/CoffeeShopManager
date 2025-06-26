@@ -24,6 +24,7 @@ using Data.DTO.Recipes;
 using Data.DTO.Salaries;
 using Data.DTO.Shifts;
 using Data.DTO.Suppliers;
+using Data.DTO.Surcharges;
 using Data.DTO.Tables;
 using Data.DTO.Timekeeping;
 using Data.DTO.Toppings;
@@ -74,6 +75,7 @@ builder.Services.AddAutoMapper(typeof(LotCreateUpdateRequest));
 builder.Services.AddAutoMapper(typeof(LotDetailsCreateUpdateRequets));
 builder.Services.AddAutoMapper(typeof(OrderToppingDetailsCreateUpdateReuqest));
 builder.Services.AddAutoMapper(typeof(IngredientsCreateUpdateRequest));
+builder.Services.AddAutoMapper(typeof(SurchargesCreateUpdateRequest));
 //Authen and author
 builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
 builder.Services.AddIdentity<User, Role>()
