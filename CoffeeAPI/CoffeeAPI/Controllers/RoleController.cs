@@ -1,6 +1,9 @@
-﻿using Data.DTO.Role;
+﻿using Application.SeedWorks;
+using Azure;
+using Data.DTO.Role;
 using Data.DTO.User;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +19,12 @@ namespace APIMUSIC.Controllers
     {
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
-        public RoleController(RoleManager<Role> roleManager, UserManager<User> userManager)
+        private readonly IUnitOfWork _unitOfWork;
+        public RoleController(RoleManager<Role> roleManager, UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("GetAllRole")]
@@ -63,7 +68,7 @@ namespace APIMUSIC.Controllers
                         }
                         foreach (IdentityError error in result.Errors)
                         {
-                           return BadRequest(error.Description);
+                            return BadRequest(error.Description);
                         }
                     }
                 }
@@ -117,14 +122,14 @@ namespace APIMUSIC.Controllers
             }
             var user = await _userManager.FindByIdAsync(model.UserId);
             IdentityResult? result;
-            if ( !(await _userManager.IsInRoleAsync(user, role.Name)))
+            if (!(await _userManager.IsInRoleAsync(user, role.Name)))
             {
                 result = await _userManager.AddToRoleAsync(user, role.Name);
             }
-            else if ( await _userManager.IsInRoleAsync(user, role.Name))
+            else if (await _userManager.IsInRoleAsync(user, role.Name))
             {
                 return BadRequest("Nguoi dung da thuoc quyen han nay");
-               // result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+                // result = await _userManager.RemoveFromRoleAsync(user, role.Name);
             }
             return Ok();
         }
@@ -209,7 +214,7 @@ namespace APIMUSIC.Controllers
             catch
             {
                 return BadRequest();
-            }  
+            }
         }
 
         [HttpGet("ListRolesByUserId")]
@@ -234,6 +239,51 @@ namespace APIMUSIC.Controllers
             {
                 return BadRequest(new { error = ex.Message });
             }
+        }
+
+        [HttpPut("edit_Role")]
+        public async Task<IActionResult> UpdateRole(Guid id, [FromBody] CreateRoleViewModel request)
+        {
+            var role = await _roleManager.FindByIdAsync(id.ToString());
+            if (role == null)
+                return NotFound();
+            role.Name = request.RoleName;
+            role.Description = request.Description;
+            await _roleManager.UpdateAsync(role);
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteRoles([FromQuery] Guid id)
+        {
+            var roleIdinUserRole = await _unitOfWork.UserRepository.CountRoleIdInUserRole(id);
+            if(roleIdinUserRole == 0)
+            {
+                var role = await _roleManager.FindByIdAsync(id.ToString());
+                if (role == null)
+                    return NotFound();
+                await _roleManager.DeleteAsync(role);
+                return Ok();
+            }
+            else
+                return BadRequest();
+        }
+
+        [HttpPost("set-password")]
+        public async Task<IActionResult> SetPassword(Guid id, [FromBody] SetPasswordRequest model)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
+            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.NewPassword);
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(string.Join("<br>", result.Errors.Select(x => x.Description)));
+            }
+            return StatusCode(StatusCodes.Status200OK);
         }
     }
 }

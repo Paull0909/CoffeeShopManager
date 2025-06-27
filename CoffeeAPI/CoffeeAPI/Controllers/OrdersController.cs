@@ -141,7 +141,7 @@ namespace CoffeeAPI.Controllers
                     }
 
                     order.TotalAmount = totalOrderAmount;
-                    order.FinalAmount = totalOrderAmount - (totalOrderAmount * order.Discount / 100);
+                    order.FinalAmount = totalOrderAmount + (totalOrderAmount * order.Discount / 100);
                     await _unitOfWork.CompleteAsync();
                     return Ok();
                 }
@@ -198,7 +198,7 @@ namespace CoffeeAPI.Controllers
                         totalOrderAmount += totalDetailPrice;
                     }
                     order.TotalAmount = totalOrderAmount;
-                    order.FinalAmount = totalOrderAmount - (totalOrderAmount * order.Discount / 100);
+                    order.FinalAmount = totalOrderAmount + (totalOrderAmount * order.Discount / 100);
                     await _unitOfWork.CompleteAsync();
                     return Ok();
                 }

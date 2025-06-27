@@ -20,9 +20,16 @@ namespace Application.Repositoty
             _mapper = mapper;
         }
 
+        public async Task<int> CountRoleIdInUserRole(Guid roleId)
+        {
+            var count = _context.UserRoles.Where(x=>x.RoleId==roleId).Count();
+            return count;
+        }
+
         public async Task<User> GetUser(Guid id)
         {
             var user =  _context.Users.Find(id);
+            
             return user;
         }
     }
