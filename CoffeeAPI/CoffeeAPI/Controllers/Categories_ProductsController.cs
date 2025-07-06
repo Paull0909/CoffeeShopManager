@@ -32,6 +32,21 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+
+        [HttpGet("GetProductByCategories_ProductsID")]
+        public async Task<IActionResult> GetProByID(int id)
+        {
+            try
+            {
+                var pr = _unitOfWork.ProductsRepository.Find(x=>x.CategoryID == id).ToList();
+                return Ok(pr);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("GetAllCategories_ProductsByName")]
         public async Task<IActionResult> GetByName(string name)
         {

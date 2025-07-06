@@ -42,6 +42,38 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetAllEmployeesByID")]
+        public async Task<IActionResult> GetByID(int id)
+        {
+            try
+            {
+                bool status = false;
+                var salaries = _unitOfWork.SalariesRepository.Find(x => x.EmployeeID == id).ToList();
+                if(salaries.Count > 0)
+                {
+                    status = true;
+                    return Ok(status);
+                }
+                var time = _unitOfWork.SalariesRepository.Find(x => x.EmployeeID == id).ToList();
+                if (time.Count > 0)
+                {
+                    status = true;
+                    return Ok(status);
+                }
+                var user = _unitOfWork.UserRepository.Find(x => x.EmployeeID == id).ToList();
+                if (user.Count > 0)
+                {
+                    status = true;
+                    return Ok(status);
+                }
+                return Ok(status);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(EmployeesCreateUpdateRequest request)
         {

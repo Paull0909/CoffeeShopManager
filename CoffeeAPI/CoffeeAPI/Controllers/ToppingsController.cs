@@ -33,6 +33,21 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetForenkeyToDelete")]
+        public async Task<IActionResult> GetForenkey(int id)
+        {
+            try
+            {
+                var tp = _unitOfWork.OrderToppingDetailsRepository.Find(x=>x.ToppingID == id).ToList();
+                return Ok(tp);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("GetToppingsByName")]
         public async Task<IActionResult> GetByName(string name)
         {

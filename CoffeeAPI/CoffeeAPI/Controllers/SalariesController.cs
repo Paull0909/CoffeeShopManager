@@ -27,7 +27,7 @@ namespace CoffeeAPI.Controllers
             {
                 var sl = await _unitOfWork.SalariesRepository.GetAllAsync();
                 var list = new List<SalariesViewModel>();
-                foreach(var item in sl)
+                foreach (var item in sl)
                 {
                     var i = _mapper.Map<SalariesViewModel>(item);
                     var ep = await _unitOfWork.EmployeesRepository.GetByIdAsync(item.EmployeeID);
@@ -37,6 +37,22 @@ namespace CoffeeAPI.Controllers
                     list.Add(i);
                 }
                 return Ok(list);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetByEmployee")]
+        public async Task<IActionResult> GetByEmployee(int id, int year, int month)
+        {
+            try
+            {
+
+                var list = _unitOfWork.SalariesRepository.Find(x => x.EmployeeID == id && x.Year == year && x.Month == month).ToList();
+                return Ok(list);
+
             }
             catch
             {

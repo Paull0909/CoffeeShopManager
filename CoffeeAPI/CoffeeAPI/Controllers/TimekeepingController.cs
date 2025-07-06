@@ -41,6 +41,20 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetByEmployee")]
+        public async Task<IActionResult> GetByEmployee(int id, DateOnly date, TimeOnly start , TimeOnly end)
+        {
+            try
+            {
+                var list =  _unitOfWork.TimekeepingRepository.Find(x=>x.EmployeeID == id && x.WorkDate == date && x.CheckInTime < end && start < x.CheckOutTime).ToList();
+                return Ok(list);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
         [HttpGet("GetTimekeepingByFilter")]
         public async Task<IActionResult> GetByFilter(DateOnly start, DateOnly end, int? EmployeeId)
         {

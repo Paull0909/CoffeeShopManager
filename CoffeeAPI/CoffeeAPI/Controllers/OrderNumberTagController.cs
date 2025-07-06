@@ -37,6 +37,20 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetForenkeyToDelete")]
+        public async Task<IActionResult> GetForenkey(int id)
+        {
+            try
+            {
+                var eps = _unitOfWork.OrdersRepository.Find(x=>x.TableNumberID == id).ToList();
+                return Ok(eps);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("GetOrderNumberTagByName")]
         public async Task<IActionResult> GetByName(string name)
         {

@@ -43,6 +43,20 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetForenkeyToDelete")]
+        public async Task<IActionResult> GetForenkey(int id)
+        {
+            try
+            {
+                var or = _unitOfWork.OrderDetailsRepository.Find(x => x.ProductID == id).ToList();
+                return Ok(or);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("GetProductsByName")]
         public async Task<IActionResult> GetByName(string name)
         {
@@ -158,7 +172,17 @@ namespace CoffeeAPI.Controllers
             try
             {
                 var pr = await _unitOfWork.ProductsRepository.GetByIdAsync(id);
-                _unitOfWork.ProductsRepository.Remove(pr);
+                var size = _unitOfWork.ProductSizesRepository.Find(x => x.ProductID == pr.ProductID).ToList();
+                if(size.Count > 0)
+                {
+                    foreach (var i in size)
+                    {
+                        var ct = _unitOfWork.RecipesRepository.Find(x => x.ProductSizeID == i.ProductSizeID).First();
+                        _unitOfWork.RecipesRepository.Remove(ct);
+                        _unitOfWork.ProductSizesRepository.Remove(i);
+                    }
+                    _unitOfWork.ProductsRepository.Remove(pr);
+                }
                 await _unitOfWork.CompleteAsync();
                 return Ok();
             }
