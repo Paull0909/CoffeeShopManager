@@ -40,6 +40,20 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetByEmployeeID")]
+        public async Task<IActionResult> GetByEmployee(int id)
+        {
+            try
+            {
+                var ep = _unitOfWork.EmployeesRepository.Find(x=>x.PositionID == id).ToList();
+                return Ok(ep);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("GetPositionsByName")]
         public async Task<IActionResult> GetByName(string name)
         {
