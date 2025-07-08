@@ -7,5 +7,7 @@ namespace Application.IRepositoty
     {
         Task<User> GetUser(Guid id);
         Task<int> CountRoleIdInUserRole(Guid roleId);
+
+        Task<int> CountUserIdInUserRole(Guid userId);
     }
 }

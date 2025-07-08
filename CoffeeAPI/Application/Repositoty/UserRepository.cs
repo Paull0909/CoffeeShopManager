@@ -26,6 +26,12 @@ namespace Application.Repositoty
             return count;
         }
 
+        public async Task<int> CountUserIdInUserRole(Guid userId)
+        {
+            var count = _context.UserRoles.Where(x => x.UserId == userId).Count();
+            return count;
+        }
+
         public async Task<User> GetUser(Guid id)
         {
             var user =  _context.Users.Find(id);

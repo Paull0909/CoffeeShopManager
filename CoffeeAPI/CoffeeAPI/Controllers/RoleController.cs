@@ -253,11 +253,27 @@ namespace APIMUSIC.Controllers
             return Ok();
         }
 
+        [HttpDelete("delete-user")]
+        public async Task<IActionResult> DeleteUser([FromQuery] Guid id)
+        {
+            var userIdinUserRole = await _unitOfWork.UserRepository.CountUserIdInUserRole(id);
+            if(userIdinUserRole == 0)
+            {
+                var user = await _userManager.FindByIdAsync(id.ToString());
+                if (user == null)
+                    return NotFound();
+                await _userManager.DeleteAsync(user);
+                return Ok();
+            }
+            else
+                return BadRequest();
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteRoles([FromQuery] Guid id)
         {
             var roleIdinUserRole = await _unitOfWork.UserRepository.CountRoleIdInUserRole(id);
-            if(roleIdinUserRole == 0)
+            if (roleIdinUserRole == 0)
             {
                 var role = await _roleManager.FindByIdAsync(id.ToString());
                 if (role == null)
@@ -278,6 +294,23 @@ namespace APIMUSIC.Controllers
                 return NotFound();
             }
             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.NewPassword);
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(string.Join("<br>", result.Errors.Select(x => x.Description)));
+            }
+            return StatusCode(StatusCodes.Status200OK);
+        }
+
+        [HttpPut("update-IsAction")]
+        public async Task<IActionResult> updateIsAction(Guid id, bool isAction)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
+            user.LockoutEnabled = isAction;
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
