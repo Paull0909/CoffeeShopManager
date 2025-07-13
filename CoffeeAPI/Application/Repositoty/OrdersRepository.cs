@@ -39,7 +39,7 @@ namespace Application.Repositoty
 
         public async Task<List<Orders>> GetAllOrdersByDay()
         {
-            var orders = await _context.Orders.Where(t=>t.OrderDate.Day==DateTime.Today.Day).ToListAsync();
+            var orders = await _context.Orders.Where(t=>t.OrderDate.Day==DateTime.Today.Day&& t.OrderDate.Month==DateTime.Today.Month && t.OrderDate.Year==DateTime.Today.Year).ToListAsync();
             return orders;
         }
 
