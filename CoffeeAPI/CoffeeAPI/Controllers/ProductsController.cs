@@ -43,6 +43,28 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetAllProductsIsAvailable")]
+        public async Task<IActionResult> GetAllProductsIsAvailable()
+        {
+            try
+            {
+                var pr = await _unitOfWork.ProductsRepository.GetAllIsAvailable();
+                var list = new List<ProductsViewModel>();
+                foreach (var item in pr)
+                {
+                    var i = _mapper.Map<ProductsViewModel>(item);
+                    var j = await _unitOfWork.Categories_ProductsRepository.GetByIdAsync(i.CategoryID);
+                    i.Category_Name = j?.CategoryName;
+                    list.Add(i);
+                }
+                return Ok(list);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("GetForenkeyToDelete")]
         public async Task<IActionResult> GetForenkey(int id)
         {

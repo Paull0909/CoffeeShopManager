@@ -34,6 +34,20 @@ namespace CoffeeAPI.Controllers
             }
         }
 
+        [HttpGet("GetAllToppingsIsAvailable")]
+        public async Task<IActionResult> GetAllToppingsIsAvailable()
+        {
+            try
+            {
+                var tp = await _unitOfWork.ToppingsRepository.GetAllIsAvailable();
+                return Ok(tp);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("GetForenkeyToDelete")]
         public async Task<IActionResult> GetForenkey(int id)
         {

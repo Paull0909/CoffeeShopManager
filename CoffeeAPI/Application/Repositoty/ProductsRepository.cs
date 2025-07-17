@@ -28,6 +28,12 @@ namespace Application.Repositoty
             else return false;
         }
 
+        public async Task<List<Products>> GetAllIsAvailable()
+        {
+            var pr = _context.Products.Where(t => t.IsAvailable == true).ToList();
+            return pr;
+        }
+
         public async Task<List<Products>> GetByCategory(int id)
         {
             var pr = await _context.Products.Where(t => t.CategoryID == id).ToListAsync();
