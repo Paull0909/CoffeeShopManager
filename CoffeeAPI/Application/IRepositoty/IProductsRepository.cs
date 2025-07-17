@@ -7,5 +7,6 @@ namespace Application.IRepositoty
     {
         bool FindName(string name);
         Task<List<Products>> GetByCategory(int id);
+        Task<List<Products>> GetAllIsAvailable();
     }
 }

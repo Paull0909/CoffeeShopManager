@@ -1,14 +1,10 @@
-﻿using Application.Service;
+﻿using Application.IRepositoty;
+using Application.Service;
 using AutoMapper;
 using Data.Context;
 using Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.IRepositoty
+namespace Application.Repositoty
 {
     class ToppingsRepository : RepositoryBase<Toppings, int>,IToppingsRepository
     {
@@ -17,6 +13,11 @@ namespace Application.IRepositoty
         public ToppingsRepository(Web_Context context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
+        }
+        public async Task<List<Toppings>> GetAllIsAvailable()
+        {
+            var list = _context.Toppings.Where(t => t.IsAvailable == true).ToList();
+            return list;
         }
     }
 }
