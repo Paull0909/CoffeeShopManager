@@ -1,9 +1,11 @@
 ﻿using Application.SeedWorks;
 using AutoMapper;
+using Azure.Core;
 using Data.DTO.Positions;
 using Data.DTO.Recipes;
 using Data.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeAPI.Controllers
@@ -53,6 +55,7 @@ namespace CoffeeAPI.Controllers
         {
             try
             {
+                
                 var i = _mapper.Map<Recipes>(request);
                 _unitOfWork.RecipesRepository.Add(i);
                 await _unitOfWork.CompleteAsync();
@@ -63,6 +66,31 @@ namespace CoffeeAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("CheckWhenAdd")]
+        public async Task<IActionResult> CheckAdd(int size, int ingre)
+        {
+            try
+            {
+                var check = _unitOfWork.RecipesRepository.Find(x => x.ProductSizeID == size && x.IngredientsID == ingre).ToList();
+                bool result = false;
+                if (check.Count > 0)
+                {
+                    result = true;
+                    return Ok(result);
+                }
+                else
+                {
+                    return Ok(result);
+                }
+
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
